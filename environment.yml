@@ -1,0 +1,14 @@
+name: DSCI522-39-FMJ
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.10
+  - ipykernel
+  - pandas
+  - matplotlib
+  - altair
+  - vega_datasets
+  - scikit-learn
+  - scipy
+
