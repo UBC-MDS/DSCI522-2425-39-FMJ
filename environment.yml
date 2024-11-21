@@ -11,4 +11,5 @@ dependencies:
   - vega_datasets
   - scikit-learn
   - scipy
+  - ucimlrepo
 
