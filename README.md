@@ -33,6 +33,9 @@ conda-lock install --file conda-lock.yml
 ```
 
 3. Activate the Environment
+```bash
+conda activate DSCI522-39-FMJ
+```
 
 ## License
 This project is licensed under a MIT License. See the license file for more information.
