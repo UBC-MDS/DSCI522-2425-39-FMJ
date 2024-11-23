@@ -10,7 +10,7 @@
 Using a SVM model, we try to classify the age group ("senior", "non-senior") of a given person based on a few of their of health indicators.
 
 ## Report
-The final report can be found [here](https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/blob/main/analysis.ipynb)
+The final report can be found [here](https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/blob/main/notebooks/age_group_classification.ipynb)
 
 ## Dependencies
 This project requires specific dependencies, which are listed in the `environment.yml` and `conda-lock.yml` files. Follow these steps to set up the environment:
