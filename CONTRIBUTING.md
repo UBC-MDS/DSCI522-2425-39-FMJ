@@ -23,4 +23,4 @@ Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to
 abide by its terms.
 
 ### Attribution
-These contributing guidelines were adapted from the [tiffany breast cabcer prediction project] (https://github.com/ttimbers/breast-cancer-predictor/blob/0.0.1/CONTRIBUTING.md)
+These contributing guidelines were adapted from the [tiffany breast cancer prediction project] (https://github.com/ttimbers/breast-cancer-predictor/blob/0.0.1/CONTRIBUTING.md)
