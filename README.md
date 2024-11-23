@@ -1,5 +1,5 @@
 # Age Group Prediction 
-## Can the health and nutritional status of adults and children be used to classify age group?
+## Can the health and nutritional status of Americans be used to classify their age group?
 
 ## Authors:
 - Forgive Agbesi
@@ -44,3 +44,7 @@ This project is licensed under a MIT License. See the license file for more info
 Dua, Dheeru, and Casey Graff. 2017. “UCI Machine Learning Repository.” University of California, Irvine, School of Information; Computer Sciences. http://archive.ics.uci.edu/ml.
 
 NA, N. (2019). National Health and Nutrition Health Survey 2013-2014 (NHANES) Age Prediction Subset [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BS66.
+
+Mukhtar, Hamid and Sana Al Azwari. “Investigating Non-Laboratory Variables to Predict Diabetic and Prediabetic Patients from Electronic Medical Records Using Machine Learning.” (2021).
+
+Papazafiropoulou, Athanasia K.. “Diabetes management in the era of artificial intelligence.” Archives of Medical Sciences. Atherosclerotic Diseases 9 (2024): e122 - e128.
