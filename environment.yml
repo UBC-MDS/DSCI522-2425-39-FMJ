@@ -3,33 +3,34 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python>=3.11,<3.13
-  - pip
-  - ipykernel
-  - nb_conda_kernels
-  - altair-all
-  - vega_datasets
-  - scipy
-  - matplotlib>=3.2.2
-  - scikit-learn
-  - requests>=2.24.0
-  - graphviz
-  - python-graphviz
-  - eli5
-  - shap
-  - jinja2
-  - lightgbm
-  - spacy
-  - xgboost
-  - catboost
-  - nltk
-  - imbalanced-learn
-  - ucimlrepo
+  - python==3.11
+  - pip==24.3.1
+  - ipykernel==6.29.5
+  - nb_conda_kernels==2.5.1
+  - altair-all==5.4.1
+  - vega_datasets==0.9.0
+  - scipy==1.14.1
+  - matplotlib==3.9.2
+  - scikit-learn==1.5.2
+  - requests==2.24.0
+  - graphviz==12.0.0
+  - python-graphviz==0.20.3
+  - eli5==0.13.0
+  - shap==0.46.0
+  - jinja2==3.1.4
+  - lightgbm==4.5.0
+  - spacy==3.8.2
+  - xgboost==2.1.2
+  - catboost==1.2.5
+  - nltk==3.9.1
+  - imbalanced-learn==0.12.4
+  - ucimlrepo==0.0.7
+  - pandera==0.20.4
   
   - pip:
-    - mglearn
-    - spacymoji
-    - altair_ally>=0.1.1
+    - mglearn==0.2.0
+    - spacymoji==3.1.0
+    - altair_ally==0.1.1
 
 
 
