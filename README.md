@@ -13,29 +13,35 @@ Using a SVM model, we try to classify the age group ("senior", "non-senior") of 
 The final report can be found [here](https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/blob/main/notebooks/age_group_classification.ipynb)
 
 ## Dependencies
-This project requires specific dependencies, which are listed in the `environment.yml` and `conda-lock.yml` files. Follow these steps to set up the environment:
+- [Docker](https://www.docker.com)
 
-1. Download or Clone the Repository
+## Usage
+
+### Setup
+
+If you are using Windows or Mac, make sure Docker Desktop is running.
+
+1. Clone this GitHub Repository
+
 ```bash
 git clone https://github.com/UBC-MDS/DSCI522-2425-39-FMJ
-cd DSCI522-2425-39-FMJ
-```
-2. Create the Conda Environment using the environment.yml file
-
-Option A: Using environment.yml
-```bash
-conda env create -f environment.yml
 ```
 
-Option B: Using conda-lock.yml
+### Running the analysis
+
+1. Navigate to the root of this project on your computer using the command line and enter the following command:
+
 ```bash
-conda-lock install --file conda-lock.yml
+docker compose up
 ```
 
-3. Activate the Environment
-```bash
-conda activate DSCI522-39-FMJ
-```
+2. In the terminal, look for a URL that starts with http://127.0.0.1:8888/lab?token= (for an example, see the highlighted text in the terminal below). Copy and paste that URL into your browser.
+
+3. To run the analysis, open src/age_group_classification.ipynb in Jupyter Lab you just launched and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
+
+### Clean up
+
+1. To shut down the container and clean up the resources, type `Cntrl` + `C` in the terminal where you launched the container, and then type `docker compose rm`
 
 ## License
 This project is licensed under a MIT License. See the license file for more information.
