@@ -2,7 +2,6 @@
 # and updating most recently built image with the latest tag.
 # Can be triggered by either pushing a commit that changes the `Dockerfile`, 
 # or manually dispatching the workflow.
-
 name: Publish Docker image
 
 on: 
