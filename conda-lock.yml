@@ -13,10 +13,10 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: e3e04b00ed666850b6dbde1c57a3856603da6dbcef2aec79f23c343cc2d37858
-    osx-arm64: d556706785e6630ab45e428ebb366a4a8b65d2c2c7e8b481e0b8df9111049301
-    osx-64: 82b1c573f7b880062e9920af6ab99488d3e6521bb444eb4d03296f8e344f803c
-    win-64: 27d12cae01d6fd3541134de239ea36851b1f41dd8cd42ed51fc55a182fa78a1c
+    linux-64: a57d887b44cda265c8c53dcb54f4ee06e4aa3da535b2c4003e1759132e258e1a
+    osx-arm64: 2e5ea4b21e093baac39694040725dec2f0b75a38509df0657f4318e87acb2238
+    osx-64: c961c8dda6152f77fe686098f400679a5cd08c98ce5059c97e55838bbc01ac5a
+    win-64: 40ec065ed40d3c2781eb4f940949478847a8f5e2a98a868ae290ebe9ba382a66
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -9998,16 +9998,16 @@ package:
     __cuda: ''
     __glibc: '>=2.17,<3.0.a0'
     _openmp_mutex: '>=4.5'
-    cuda-version: '>=11.2,<12'
+    cuda-version: '>=11.2,<12.0a0'
     libgcc: ''
     libgcc-ng: '>=12'
     libstdcxx: ''
     libstdcxx-ng: '>=12'
     nccl: '>=2.23.4.1,<3.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libxgboost-2.1.2-cuda118_h09a87be_1.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/libxgboost-2.1.2-cuda118_h09a87be_2.conda
   hash:
-    md5: 706196aa07632a23a1fb7d34da1ba2d1
-    sha256: ed2d881193ac62968f66d1fbe0802a2edcacfba848691a9141146fa21ec4318e
+    md5: 58d4ae1f355257b428eace2119c4bde4
+    sha256: 57e8f5bd7230de6eba58ae4e8e364554ae47ece7d948f6bd065ebf5896634be2
   category: main
   optional: false
 - name: libxgboost
@@ -10018,10 +10018,10 @@ package:
     __osx: '>=10.13'
     libcxx: '>=18'
     llvm-openmp: '>=18.1.8'
-  url: https://conda.anaconda.org/conda-forge/osx-64/libxgboost-2.1.2-cpu_h63c3a07_1.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/libxgboost-2.1.2-cpu_h63c3a07_2.conda
   hash:
-    md5: ef710f920be3d99f9e6e49b1c6cd6a75
-    sha256: 5ad7818dce918df92592513274cf6c7ca506a3826506398c2a7699bd90483359
+    md5: 81de85482833967ee1d41614c5c4c5b9
+    sha256: 5f3b245e0a87a24baa771224c97c75c569203b73c24da9101367d0937fafa8a0
   category: main
   optional: false
 - name: libxgboost
@@ -10032,10 +10032,10 @@ package:
     __osx: '>=11.0'
     libcxx: '>=18'
     llvm-openmp: '>=18.1.8'
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/libxgboost-2.1.2-cpu_h549eda0_1.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/libxgboost-2.1.2-cpu_h549eda0_2.conda
   hash:
-    md5: ca27a70b2d70d8ef6f46db3dbba89bd1
-    sha256: 6e1f25baaf4211e01a920231a2e904957b9e84d547e83fe8417df01e7f4ea395
+    md5: 0d3e984cccbfa48015e90150c51e0346
+    sha256: f2dad00090483538be100015de12f10c867443280b89aa73559956ed6c54d2ee
   category: main
   optional: false
 - name: libxgboost
@@ -10046,10 +10046,10 @@ package:
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
-  url: https://conda.anaconda.org/conda-forge/win-64/libxgboost-2.1.2-cpu_hb3f76d0_1.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/libxgboost-2.1.2-cpu_hb3f76d0_2.conda
   hash:
-    md5: 240d280be7fb2bdc9413cadc00e960a4
-    sha256: 507a6253fabfa3442a1b474954ece9ed4b932a157d2028de03bf5eddf0f34eb2
+    md5: 1f0688fb69d0300a734e2f4c34e176c5
+    sha256: 187f578d6fc22c089941d129edc1ccb112de529e96652ec3eade3024edbb935d
   category: main
   optional: false
 - name: libxkbcommon
@@ -11714,10 +11714,10 @@ package:
     libgcc-ng: '>=12'
     libstdcxx: ''
     libstdcxx-ng: '>=12'
-  url: https://conda.anaconda.org/conda-forge/linux-64/nccl-2.23.4.1-h03a54cd_2.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/nccl-2.23.4.1-h03a54cd_3.conda
   hash:
-    md5: a08604ac3f9c3dbd128bb24e089dee5f
-    sha256: d5376af5f95272c27ccf64144a87e97c0a21b12284ff4bdf12e6dd07d8bba2cc
+    md5: 5ea398a88c7271b2e3ec56cd33da424f
+    sha256: 9a620c1f5c9e31b56e4e7771d9505da52970fd1c93aa9c581e5d008907c41c1f
   category: main
   optional: false
 - name: ncurses
@@ -12243,19 +12243,20 @@ package:
   category: main
   optional: false
 - name: openldap
-  version: 2.6.8
+  version: 2.6.9
   manager: conda
   platform: linux-64
   dependencies:
+    __glibc: '>=2.17,<3.0.a0'
     cyrus-sasl: '>=2.1.27,<3.0a0'
-    krb5: '>=1.21.2,<1.22.0a0'
-    libgcc-ng: '>=12'
-    libstdcxx-ng: '>=12'
-    openssl: '>=3.3.0,<4.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/openldap-2.6.8-hedd0468_0.conda
+    krb5: '>=1.21.3,<1.22.0a0'
+    libgcc: '>=13'
+    libstdcxx: '>=13'
+    openssl: '>=3.4.0,<4.0a0'
+  url: https://conda.anaconda.org/conda-forge/linux-64/openldap-2.6.9-he970967_0.conda
   hash:
-    md5: dcd0ed5147d8876b0848a552b416ce76
-    sha256: 902652f7a106caa6ea9db2c44118078e23a499bf091ce8ea01d8498c156e8219
+    md5: ca2de8bbdc871bce41dbf59e51324165
+    sha256: 224f458848f792fe9e3587ee6b626d4eaad63aead0e5e6c25cbe29aba7b05c53
   category: main
   optional: false
 - name: openssl
@@ -12492,81 +12493,80 @@ package:
   category: main
   optional: false
 - name: pandas
-  version: 2.2.3
+  version: 2.2.2
   manager: conda
   platform: linux-64
   dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libgcc: '>=13'
-    libstdcxx: '>=13'
-    numpy: '>=1.22.4'
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+    numpy: '>=1.19,<3'
     python: '>=3.11,<3.12.0a0'
     python-dateutil: '>=2.8.1'
     python-tzdata: '>=2022a'
     python_abi: 3.11.*
-    pytz: '>=2020.1,<2024.2'
-  url: https://conda.anaconda.org/conda-forge/linux-64/pandas-2.2.3-py311h7db5c69_1.conda
+    pytz: '>=2020.1'
+  url: https://conda.anaconda.org/conda-forge/linux-64/pandas-2.2.2-py311h14de704_1.conda
   hash:
-    md5: 643f8cb35133eb1be4919fb953f0a25f
-    sha256: dce121d3838996b77b810ca9097cc17068552075c761408a9b2eb788cf8fd1b0
+    md5: 84e2dd379d4edec4dd6382861486104d
+    sha256: d600c0cc42fca1ad36d969758b2495062ad83124ecfcf5673c98b11093af7055
   category: main
   optional: false
 - name: pandas
-  version: 2.2.3
+  version: 2.2.2
   manager: conda
   platform: osx-64
   dependencies:
     __osx: '>=10.13'
-    libcxx: '>=17'
-    numpy: '>=1.22.4'
+    libcxx: '>=16'
+    numpy: '>=1.19,<3'
     python: '>=3.11,<3.12.0a0'
     python-dateutil: '>=2.8.1'
     python-tzdata: '>=2022a'
     python_abi: 3.11.*
-    pytz: '>=2020.1,<2024.2'
-  url: https://conda.anaconda.org/conda-forge/osx-64/pandas-2.2.3-py311haeb46be_1.conda
+    pytz: '>=2020.1'
+  url: https://conda.anaconda.org/conda-forge/osx-64/pandas-2.2.2-py311hfdcbad3_1.conda
   hash:
-    md5: ca32a9963a1b5c636b5131831ded81f3
-    sha256: ad35c52521f0946caf06e19fd3dfad55f7b30e46648f96214f59d8ca2dac95ad
+    md5: 8dbecc860148500512e768571c59fbe0
+    sha256: 070c97918f2ea3384120a87ca3681803242b48875d9269ed73542bacfa14fd03
   category: main
   optional: false
 - name: pandas
-  version: 2.2.3
+  version: 2.2.2
   manager: conda
   platform: osx-arm64
   dependencies:
     __osx: '>=11.0'
-    libcxx: '>=17'
-    numpy: '>=1.22.4'
+    libcxx: '>=16'
+    numpy: '>=1.19,<3'
     python: '>=3.11,<3.12.0a0'
     python-dateutil: '>=2.8.1'
     python-tzdata: '>=2022a'
     python_abi: 3.11.*
-    pytz: '>=2020.1,<2024.2'
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/pandas-2.2.3-py311h9cb3ce9_1.conda
+    pytz: '>=2020.1'
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/pandas-2.2.2-py311h4b4568b_1.conda
   hash:
-    md5: 9ffa9dee175c76e68ea5de5aa1168d83
-    sha256: 0a08027b25e4f6034d7733c7366f44283246d61cb82d1721f8789d50ebfef287
+    md5: b1790dadc62d0af23378d5a79b263893
+    sha256: b08f214593af94dd9bb50d7bf432d1defde66312bd1a2476f27a5fdd9f45ef66
   category: main
   optional: false
 - name: pandas
-  version: 2.2.3
+  version: 2.2.2
   manager: conda
   platform: win-64
   dependencies:
-    numpy: '>=1.22.4'
+    numpy: '>=1.19,<3'
     python: '>=3.11,<3.12.0a0'
     python-dateutil: '>=2.8.1'
     python-tzdata: '>=2022a'
     python_abi: 3.11.*
-    pytz: '>=2020.1,<2024.2'
+    pytz: '>=2020.1'
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
-  url: https://conda.anaconda.org/conda-forge/win-64/pandas-2.2.3-py311hcf9f919_1.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/pandas-2.2.2-py311hcf9f919_1.conda
   hash:
-    md5: 5965b8926efba14e6fde98cc8713c083
-    sha256: f5477bf3a2b7919481009ce87212d7bbd16c61a5bb05c692a7c336fb45646534
+    md5: ec3ed8d602148625469dc13c481f23b5
+    sha256: 351b4f7211fc755ea1af8b218d2515418df3af08170197011934faf06bb5d98e
   category: main
   optional: false
 - name: pandera
@@ -13881,10 +13881,10 @@ package:
     python: '>=3.9'
     scikit-learn: ''
     scipy: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.1.2-cuda118_pyh40095f8_1.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.1.2-cuda118_pyh40095f8_2.conda
   hash:
-    md5: 61b31588c1e003d65ca2930ca6c725bf
-    sha256: ae03b1d7e6587c8c97f84c4ce58f721f6c78a1c676b947e9257c417bfba83862
+    md5: b6eb4d80feb259ec87309a09d7ad48d4
+    sha256: 05937eb0e3a65c1365cb63369e0cb6d2e029108d8f25ad952c8567e242f7c2bc
   category: main
   optional: false
 - name: py-xgboost
@@ -13898,10 +13898,10 @@ package:
     python: '>=3.9'
     _py-xgboost-mutex: '2.0'
     libxgboost: '*'
-  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.1.2-cpu_pyhd3de297_1.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.1.2-cpu_pyhd3de297_2.conda
   hash:
-    md5: 88a70d00e209a80e02501d40ecaa0ec7
-    sha256: 07a5b661ad4e566e736605e4d8e28b38d886925d2a633f314b76d639ce8a649b
+    md5: 583c71795d5709f7b4a15e070a9a03a3
+    sha256: 3ee8660dbd138246098e66657efbbeea8fc96921c95c2f87be6dfa75cc4ee285
   category: main
   optional: false
 - name: py-xgboost
@@ -13915,10 +13915,10 @@ package:
     python: '>=3.9'
     _py-xgboost-mutex: '2.0'
     libxgboost: '*'
-  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.1.2-cpu_pyhd3de297_1.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.1.2-cpu_pyhd3de297_2.conda
   hash:
-    md5: 88a70d00e209a80e02501d40ecaa0ec7
-    sha256: 07a5b661ad4e566e736605e4d8e28b38d886925d2a633f314b76d639ce8a649b
+    md5: 583c71795d5709f7b4a15e070a9a03a3
+    sha256: 3ee8660dbd138246098e66657efbbeea8fc96921c95c2f87be6dfa75cc4ee285
   category: main
   optional: false
 - name: py-xgboost
@@ -13932,10 +13932,10 @@ package:
     python: '>=3.9'
     _py-xgboost-mutex: '2.0'
     libxgboost: '*'
-  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.1.2-cpu_pyhd3de297_1.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.1.2-cpu_pyhd3de297_2.conda
   hash:
-    md5: 88a70d00e209a80e02501d40ecaa0ec7
-    sha256: 07a5b661ad4e566e736605e4d8e28b38d886925d2a633f314b76d639ce8a649b
+    md5: 583c71795d5709f7b4a15e070a9a03a3
+    sha256: 3ee8660dbd138246098e66657efbbeea8fc96921c95c2f87be6dfa75cc4ee285
   category: main
   optional: false
 - name: pyarrow
@@ -14944,51 +14944,51 @@ package:
   category: main
   optional: false
 - name: pytz
-  version: '2024.1'
+  version: '2024.2'
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.2-pyhd8ed1ab_0.conda
   hash:
-    md5: 3eeeeb9e4827ace8c0c1419c85d590ad
-    sha256: 1a7d6b233f7e6e3bbcbad054c8fd51e690a67b129a899a056a5e45dd9f00cb41
+    md5: 260009d03c9d5c0f111904d851f053dc
+    sha256: 81c16d9183bb4a6780366ce874e567ee5fc903722f85b2f8d1d9479ef1dafcc9
   category: main
   optional: false
 - name: pytz
-  version: '2024.1'
+  version: '2024.2'
   manager: conda
   platform: osx-64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.2-pyhd8ed1ab_0.conda
   hash:
-    md5: 3eeeeb9e4827ace8c0c1419c85d590ad
-    sha256: 1a7d6b233f7e6e3bbcbad054c8fd51e690a67b129a899a056a5e45dd9f00cb41
+    md5: 260009d03c9d5c0f111904d851f053dc
+    sha256: 81c16d9183bb4a6780366ce874e567ee5fc903722f85b2f8d1d9479ef1dafcc9
   category: main
   optional: false
 - name: pytz
-  version: '2024.1'
+  version: '2024.2'
   manager: conda
   platform: osx-arm64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.2-pyhd8ed1ab_0.conda
   hash:
-    md5: 3eeeeb9e4827ace8c0c1419c85d590ad
-    sha256: 1a7d6b233f7e6e3bbcbad054c8fd51e690a67b129a899a056a5e45dd9f00cb41
+    md5: 260009d03c9d5c0f111904d851f053dc
+    sha256: 81c16d9183bb4a6780366ce874e567ee5fc903722f85b2f8d1d9479ef1dafcc9
   category: main
   optional: false
 - name: pytz
-  version: '2024.1'
+  version: '2024.2'
   manager: conda
   platform: win-64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.2-pyhd8ed1ab_0.conda
   hash:
-    md5: 3eeeeb9e4827ace8c0c1419c85d590ad
-    sha256: 1a7d6b233f7e6e3bbcbad054c8fd51e690a67b129a899a056a5e45dd9f00cb41
+    md5: 260009d03c9d5c0f111904d851f053dc
+    sha256: 81c16d9183bb4a6780366ce874e567ee5fc903722f85b2f8d1d9479ef1dafcc9
   category: main
   optional: false
 - name: pywin32
@@ -19290,10 +19290,10 @@ package:
     __cuda: ''
     py-xgboost: 2.1.2
     python: '>=3.9'
-  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.1.2-cuda118_pyh256f914_1.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.1.2-cuda118_pyh256f914_2.conda
   hash:
-    md5: 9ad72e53fd46e7414c9624081aabd5c6
-    sha256: 2dbdd82dbfe1868c2e0254a1fcdce717465b8044a80be7766ed10a58396379ed
+    md5: 15301dcebb59ad1a582a0200891b3fea
+    sha256: 074a6bcfe23d40338ee1b5a757096e722eb98a1126f37b3e8ed1a5980efa6024
   category: main
   optional: false
 - name: xgboost
@@ -19303,10 +19303,10 @@ package:
   dependencies:
     python: '>=3.9'
     py-xgboost: 2.1.2
-  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.1.2-cpu_pyhac85b48_1.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.1.2-cpu_pyhac85b48_2.conda
   hash:
-    md5: 4e063635209ec708ef786462259d63cc
-    sha256: 3394f8e239a1737fa3e0c00ff58bacc3b4bb9f78a97d095cfabdfc84c291cc6b
+    md5: 07e2e050dec7ae553e6b7933b2ab4b2c
+    sha256: 306b6620da9546d7e42b3a1452e6a3bed311dccfd97c1956b53f7feff6f9f813
   category: main
   optional: false
 - name: xgboost
@@ -19316,10 +19316,10 @@ package:
   dependencies:
     python: '>=3.9'
     py-xgboost: 2.1.2
-  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.1.2-cpu_pyhac85b48_1.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.1.2-cpu_pyhac85b48_2.conda
   hash:
-    md5: 4e063635209ec708ef786462259d63cc
-    sha256: 3394f8e239a1737fa3e0c00ff58bacc3b4bb9f78a97d095cfabdfc84c291cc6b
+    md5: 07e2e050dec7ae553e6b7933b2ab4b2c
+    sha256: 306b6620da9546d7e42b3a1452e6a3bed311dccfd97c1956b53f7feff6f9f813
   category: main
   optional: false
 - name: xgboost
@@ -19329,10 +19329,10 @@ package:
   dependencies:
     python: '>=3.9'
     py-xgboost: 2.1.2
-  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.1.2-cpu_pyhac85b48_1.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.1.2-cpu_pyhac85b48_2.conda
   hash:
-    md5: 4e063635209ec708ef786462259d63cc
-    sha256: 3394f8e239a1737fa3e0c00ff58bacc3b4bb9f78a97d095cfabdfc84c291cc6b
+    md5: 07e2e050dec7ae553e6b7933b2ab4b2c
+    sha256: 306b6620da9546d7e42b3a1452e6a3bed311dccfd97c1956b53f7feff6f9f813
   category: main
   optional: false
 - name: xkeyboard-config
