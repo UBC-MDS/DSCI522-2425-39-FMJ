@@ -1,0 +1,19 @@
+2024-11-29 12:26:18,594 - 
+{
+  "DATA": {
+    "DATAFRAME_CHECK": [
+      {
+        "schema": null,
+        "column": "PAQ605",
+        "check": "isin([1, 2])",
+        "error": "Column 'PAQ605' failed element-wise validator number 0: isin([1, 2]) failure cases: 7.0"
+      },
+      {
+        "schema": null,
+        "column": "DIQ010",
+        "check": "isin([1, 2])",
+        "error": "Column 'DIQ010' failed element-wise validator number 0: isin([1, 2]) failure cases: 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0"
+      }
+    ]
+  }
+}
