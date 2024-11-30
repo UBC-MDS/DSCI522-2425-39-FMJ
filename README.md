@@ -19,7 +19,7 @@ The final report can be found [here](https://github.com/UBC-MDS/DSCI522-2425-39-
 
 ### Setup
 
-If you are using Windows or Mac, make sure Docker Desktop is running.
+>If you are using Windows or Mac, make sure Docker Desktop is running.
 
 1. Clone this GitHub Repository
 
@@ -42,6 +42,25 @@ docker compose up
 ### Clean up
 
 1. To shut down the container and clean up the resources, type `Cntrl` + `C` in the terminal where you launched the container, and then type `docker compose rm`
+
+## Developer notes
+
+### Developer dependencies
+- `conda` (version 23.9.0 or higher)
+- `conda-lock` (version 2.5.7 or higher)
+
+### Adding a new dependency
+1. Add the dependency to the environment.yml file on a new branch.
+
+2. Run conda-lock -k explicit --file environment.yml -p linux-64 to update the conda-linux-64.lock file.
+
+3. Re-build the Docker image locally to ensure it builds and runs properly.
+
+4. Push the changes to GitHub. A new Docker image will be built and pushed to Docker Hub automatically. It will be tagged with the SHA for the commit that changed the file.
+
+5. Update the docker-compose.yml file on your branch to use the new container image (make sure to update the tag specifically).
+
+6. Send a pull request to merge the changes into the main branch.
 
 ## License
 This project is licensed under a MIT License. See the license file for more information.
