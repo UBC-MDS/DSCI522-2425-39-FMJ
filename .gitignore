@@ -12,3 +12,7 @@ __pycache__/
 
 .github
 .config
+
+# Miscenallenous files
+.ipyhton
+.jupyter
