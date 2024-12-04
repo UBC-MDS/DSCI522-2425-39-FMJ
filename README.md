@@ -37,6 +37,18 @@ docker compose up
 
 2. In the terminal, look for a URL that starts with http://127.0.0.1:8888/lab?token= (for an example, see the highlighted text in the terminal below). Copy and paste that URL into your browser.
 
+3. To run the analysis, open a terminal and run the following commands:
+
+```bash
+python scripts/download_data.py \
+   --repo_id=887 \
+   --write_to=data/Raw/NHANES_age_prediction.csv
+
+python scripts/validate_data.py \
+   --raw_data_path=data/Raw/NHANES_age_prediction.csv \
+   --write_to=data/processed/validated_data.csv
+```
+
 3. To run the analysis, open src/age_group_classification.ipynb in Jupyter Lab you just launched and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
 
 ### Clean up
