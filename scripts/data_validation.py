@@ -6,7 +6,7 @@ import logging
 
 # Configure logging
 logging.basicConfig(
-    filename="validation_errors.log",
+    filename="logs/validation_errors.log",
     filemode='w',
     format="%(asctime)s - %(message)s",
     level=logging.INFO
