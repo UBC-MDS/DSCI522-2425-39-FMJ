@@ -1,4 +1,4 @@
-# data_validation.py
+# validate_data.py
 # author: Michael Hewlett
 # date: 2024-12-03
 
@@ -6,7 +6,7 @@
 # Error logs from validation are saved in /logs
 
 # Usage:
-# python scripts/data_validation.py \
+# python scripts/validate_data.py \
 #    --raw_data_path=data/Raw/NHANES_age_prediction.csv \
 #    --write_to=data/processed/validated_data.csv
 

@@ -1,0 +1,29 @@
+2024-12-04 15:20:05,096 - 
+{
+  "SCHEMA": {
+    "COLUMN_NOT_IN_SCHEMA": [
+      {
+        "schema": null,
+        "column": null,
+        "check": "column_in_schema",
+        "error": "column 'Unnamed: 0' not in DataFrameSchema {'SEQN': <Schema Column(name=SEQN, type=DataType(float64))>, 'age_group': <Schema Column(name=age_group, type=DataType(str))>, 'RIDAGEYR': <Schema Column(name=RIDAGEYR, type=DataType(float64))>, 'RIAGENDR': <Schema Column(name=RIAGENDR, type=DataType(float64))>, 'PAQ605': <Schema Column(name=PAQ605, type=DataType(float64))>, 'BMXBMI': <Schema Column(name=BMXBMI, type=DataType(float64))>, 'LBXGLU': <Schema Column(name=LBXGLU, type=DataType(float64))>, 'DIQ010': <Schema Column(name=DIQ010, type=DataType(float64))>, 'LBXGLT': <Schema Column(name=LBXGLT, type=DataType(float64))>, 'LBXIN': <Schema Column(name=LBXIN, type=DataType(float64))>}"
+      }
+    ]
+  },
+  "DATA": {
+    "DATAFRAME_CHECK": [
+      {
+        "schema": null,
+        "column": "PAQ605",
+        "check": "isin([1, 2])",
+        "error": "Column 'PAQ605' failed element-wise validator number 0: isin([1, 2]) failure cases: 7.0"
+      },
+      {
+        "schema": null,
+        "column": "DIQ010",
+        "check": "isin([1, 2])",
+        "error": "Column 'DIQ010' failed element-wise validator number 0: isin([1, 2]) failure cases: 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0"
+      }
+    ]
+  }
+}
