@@ -1,3 +1,15 @@
+# data_validation.py
+# author: Michael Hewlett
+# date: 2024-12-03
+
+# This script uses pandera and other packages to load in the raw data, validate it, and save it in the /data/processed directory.
+# Error logs from validation are saved in /logs
+
+# Usage:
+# python scripts/data_validation.py \
+#    --raw_data_path=data/Raw/NHANES_age_prediction.csv \
+#    --write_to=data/processed/validated_data.csv
+
 import click
 import pandas as pd
 import pandera as pa
@@ -17,7 +29,9 @@ logging.basicConfig(
 @click.option('--write_to', type=str)
 
 def main(raw_data_path, write_to):
-
+    """
+    Uses the pandera package. Loads in the raw data, validates it, and saves it in the /data/processed directory
+    """
     original_df = pd.read_csv(raw_data_path)
 
     # Validate data and handle errors
