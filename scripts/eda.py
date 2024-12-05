@@ -9,7 +9,7 @@
 # python scripts/eda.py \
 #    --x_train_path=data/processed/X_train.csv \
 #    --y_train_path=data/processed/y_train.csv \
-#    --write_to=img/eda_histogram.png
+#    --write_to=reports/figures/eda_histogram.png
 
 import click
 import altair as alt
