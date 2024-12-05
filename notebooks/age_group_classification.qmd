@@ -1,22 +1,32 @@
 ---
-title: Predicting Age Group from health and nutritional status of Americans
-jupyter:
-  kernelspec:
-    display_name: 'Python [conda env:522_fmj]'
-    language: python
-    name: conda-env-522_fmj-py
+title: Predicting age group from health and nutritional status of Americans
+author: Forgive Agbesi, Jason Lee and Michael Hewlett
+format:
+    pdf:
+        toc: true
+        toc-depth: 2
+        number-sections: true
+
+execute:
+    echo: false
 ---
 
-        By: Forgive Agbesi, Jason Lee and Michael Hewlett
+```{python}
+import pandas as pd
+from IPython.display import Markdown, display
+from tabulate import tabulate
+import pickle
+```
 
-### Data set: National Health and Nutrition Health Survey 2013-2014 (NHANES) Age Prediction Subset
+```{python}
 
+```
 
-# 1. Summary
+## Summary
 
 In this analysis we explored the use of several classification models to predict whether a respondent is an adult or senior (essentially below or above age 65) based on their health and nutritional data. Our most promising model used Support Vector Classification (SVC) and had an overall accuracy of 0.83. While this appears promising, much of this accuracy was achieved by classifying most respondents as adults, since this was the majority class. Precision and recall for predicting the senior class was quite low (5/76 and 5/9 respectively). This suggests that the model has considerable room for improvement, which could be achieved through optimizing the hyperparameters and selecting models based on precision, recall, or f1 scores, rather than general accuracy. With the goal of correctly classifying each group, false positive and false negative errors are both equally important, applying class weighting is worth exploring in future research. Once the model performs better on those metrics, it would be worth exploring which health and nutritional features are most predictive of age, which could provide suggestions for strategic public health programs.
 
-# 2. Introduction
+## Introduction
 
 While taking care of elders is a core value of many cultures, this is not a hallmark of many western societies, including the Unites States (Healthy Aging Center 2022). Is it possible that this is reflected in different health measures? Put another way, could we use health measures to predict whether an American is a senior or not?
 
@@ -38,104 +48,21 @@ The dataset has 10 variables and 2278 rows, with each row representing a respond
 
 According to the dataset description, there are no missing values, though EDA found some unexpected values for physical activity and diabetic. Since no explanation was provided for these codes, we omitted these respondent's from our analysis.
 
-# 3. Methods & Results
+## Methods & Results
 
-### 3.1 Description of methods
+### Description of methods
 We loaded and cleaned the data, first renaming columns for clarity. We then found values for physical activity and diabetic variables that were not explained in the dataset's documentation and decided to remove observations with those values. Next we confirmed the that the dataset's description of no missing values was accurate, then split the data into training and test, and conducted EDA on the training set - including examining summary statistics of each variable and plotting their distributions.
 
 For our analysis, we first transformed categorical variables with one hot encoding, and standardized the scales of numeric variables. Because there were no missing values, it was not necessary to do transformations for this. We then fit 3 models (a dummy classifier, a logistic regression, and SVC) to the training data, and selected SVC for our final analysis because it had the best mean cross-validation accuracy. Finally, we used our SVC model to predict the test data and visualized how the model performed on this data.
 
-### 3.2 Imports & loading the data
-
-```{python}
-import pandera as pa
-import json
-import logging
-import pandas as pd
-import numpy as np
-import altair as alt
-from ucimlrepo import fetch_ucirepo 
-from sklearn.model_selection import (
-    GridSearchCV,
-    RandomizedSearchCV,
-    cross_validate,
-    train_test_split)
-from sklearn.pipeline import make_pipeline
-from sklearn.compose import make_column_transformer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
-from deepchecks.tabular import Dataset
-```
-
-```{python}
-# Configure logging
-logging.basicConfig(
-    filename="validation_errors.log",
-    filemode='w',
-    format="%(asctime)s - %(message)s",
-    level=logging.INFO
-)
-```
-
-```{python}
-# Loading data
-nhanes = fetch_ucirepo(id=887) 
-
-original_df = nhanes.data.original
-```
-
-```{python}
-# Validate data and handle errors
-schema = pa.DataFrameSchema(
-    {
-        "SEQN": pa.Column(float, pa.Check.ge(0)), # ID is greater than 0
-        "age_group": pa.Column(str, pa.Check.isin(["Adult", "Senior"])),
-        "RIDAGEYR": pa.Column(float, pa.Check.between(1, 130)), # Age between 1 and 130
-        "RIAGENDR": pa.Column(float, pa.Check.isin([1, 2])), # Gender follows codes in description doc
-        "PAQ605": pa.Column(float, pa.Check.isin([1, 2])), # Physical activity follows codes in description doc
-        "BMXBMI": pa.Column(float, pa.Check.le(100)), #BMI
-        "LBXGLU": pa.Column(float), # Units not available, no value range applied
-        "DIQ010": pa.Column(float, pa.Check.isin([1, 2])), # Diabetic status follows codes in description doc
-        "LBXGLT": pa.Column(float), # Units not available, no value range applied
-        "LBXIN": pa.Column(float) # Units not available, no value range applied
-    },
-    checks=[
-        pa.Check(lambda df: ~df.duplicated().any(), error="Duplicate rows found."),
-        pa.Check(lambda df: ~(df.isna().all(axis=1)).any(), error="Empty rows found.")
-    ],
-    strict=True #Raise error for any columns not defined in the schema
-)
-
-error_cases = pd.DataFrame()
-
-try:
-    validated_data = schema.validate(original_df, lazy=True)
-except pa.errors.SchemaErrors as e:
-    error_cases = e.failure_cases
-
-    error_message = json.dumps(e.message, indent=2)
-    logging.error("\n" + error_message)
-
-if not error_cases.empty:
-    invalid_indices = error_cases['index'].dropna().unique()
-    validated_data = (original_df.drop(index=invalid_indices).reset_index(drop=True)
-    )
-
-validated_data = validated_data.drop_duplicates().dropna(how='all')
-validated_data.head()
-```
+### Imports & loading the data
 
 #### Inspecting errors
 The dataset source stated that "gender", "physical_activity", and "diabetic" are binary features. However, "physical_activity", "diabetic" contained three unique values instead of two. According to the dataset's documentation, 'physical_activity' should only have 1 or 2 as values so rows containing 7 should be omitted. Similarly, 'diabetic' should only have 1 or 2 as values so rows containing 3 should be omitted.
 
 As a result, we removed 59 observations from the dataset during validation (1 case where physical activity was "7" and the remaining cases where diabetic was set to "3").
 
-### 3.3 Cleaning the data
-
-```{python}
-# Listing variables
-print(nhanes.variables)
-```
+### Cleaning the data
 
 #### Renaming columns and glancing at their values
 We first renamed the columns of the data set to be more meaningful and easy to understand. Below is a short description of each column in the data set.
@@ -149,43 +76,11 @@ We first renamed the columns of the data set to be more meaningful and easy to u
 - LBXGLT: Respondent's Oral
 - LBXIN: Respondent's Blood Insulin Levels
 
-```{python}
-# Checking out the feature columns
-print("Table 1: The feature columns")
-features = validated_data.drop(columns=["SEQN", "age_group", "RIDAGEYR"])
-features
-```
-
-```{python}
-# Renamed columns
-print("Table 2: Renamed columns")
-features.columns = ["gender", 
-             "physical_activity", 
-             "bmi", 
-             "blood_glucose", 
-             "diabetic", 
-             "oral", 
-             "blood_insulin"]
-features.head()
-```
-
-```{python}
-# Checking out the target column
-print("Table 3: Target column distribution")
-target = validated_data["age_group"]
-target.value_counts()
-```
-
-### 3.4 Splitting the data set
+### Splitting the data set
 
 Prior to conducting EDA, we split the data set to avoid looking at the test data and influence the training of our model. The training data is 80% of the original dataset, and the test data is 20%.
 
-```{python}
-# Splitting the data
-X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=123)
-```
-
-### 3.5 Conducting EDA on the training set
+### Conducting EDA on the training set
 
 ```{python}
 # Checking the number of observations in the training data
@@ -201,7 +96,7 @@ nhanes_summary
 
 Since gender, physical_activity, and diabetic are categorical, only the mean and standard deviation from the table above are relevant for those columns. Body mass index values below 18 are considered underweight, and values over 40 are considered severely obese. We see that the middle 50% of values fall between 22.7 & 31.1, though the max is 70.1, which is concerningly high. Blood glucose, oral, and blood insulin have their own ranges, so it will likely be necessary to standardize these variables before fitting our model.
 
-### 3.5.1 Validating Training Data
+### Validating Training Data
 
 ```{python}
 # Validation check: Target/response variable follows expected distribution
@@ -269,7 +164,7 @@ if not check_feat_feat_cor_result.passed_conditions():
 
 ```
 
-### 3.6 Visualization for EDA
+### Visualization for EDA
 
 The distributions below show class imbalance, with very few seniors relative to adults in our dataset. Across numeric variables, mode values for seniors are less pronounced than they are for adult, though ranges seem similar. Seniors seem to have higher oral values and lower blood insulin values than adults. 
 
@@ -290,7 +185,7 @@ alt.Chart(pd.concat([X_train, y_train], axis = 1)).mark_bar(opacity = 1).encode(
         )
 ```
 
-### 3.6 Preprocessing features
+### Preprocessing features
 
 #### Table 6: Feature types and planned transformations
 
@@ -321,7 +216,7 @@ preprocessor = make_column_transformer(
 transformed_df = preprocessor.fit_transform(X_train)
 ```
 
-### 3.7 Comparing classification models on Train data for best model
+### Comparing classification models on Train data for best model
 
 We compare a dummy classifier, logistic regression, and SVC model by mean cross validation score.
 
@@ -389,7 +284,7 @@ print(f'  SVC: {round(svc_mean_test_score, 5)}')
 
 ```
 
-### 3.8 Testing Best Model on Test Data
+### Testing Best Model on Test Data
 
 Since SVC had the best mean CV score, we selected it as our final model.
 
@@ -431,7 +326,7 @@ RocCurveDisplay.from_estimator(
 
 This performance is reflected in the ROC curve above. While it can differentiate the positive class "Senior" from the negative class to some extent, the model struggles to achieve both high true positive rates and low false positive rates.
 
-# Discussion
+## Discussion
 
 The question we sought to answer was "Can information about the health and nutritional status of Americans be used to predict whether they are adults or seniors?" Our results indicate that yes, age group can be predicted with moderate accuracy (roughly 83%) based on health and nutritional inputs, however there is considerable room for model improvement. 
 
@@ -441,7 +336,7 @@ In future research, we would use a metric like f1 to account for the class imbal
 
 One question for future research is to identify which health and nutritional factors have the strongest predictive ability for age group. Answering that could indicate which public health interventions have the most potential to balance health outcomes across age groups in America.
 
-# References
+## References
 
 Healthy Aging Center. 2022. "Aging Around the World." Colorado State University. https://www.research.colostate.edu/healthyagingcenter/2022/01/28/aging-around-the-world/.
 
