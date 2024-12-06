@@ -42,10 +42,10 @@ def main(validated_data_path, write_to):
     # Splitting the data
     X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=123)
 
-    X_train.to_csv(f"{write_to}/X_train.csv")
-    X_test.to_csv(f"{write_to}/X_test.csv")
-    y_train.to_csv(f"{write_to}/y_train.csv")
-    y_test.to_csv(f"{write_to}/y_test.csv")
+    X_train.to_csv(f"{write_to}/X_train.csv", index=False)
+    X_test.to_csv(f"{write_to}/X_test.csv", index=False)
+    y_train.to_csv(f"{write_to}/y_train.csv", index=False)
+    y_test.to_csv(f"{write_to}/y_test.csv", index=False)
 
 if __name__ == '__main__':
     main()
