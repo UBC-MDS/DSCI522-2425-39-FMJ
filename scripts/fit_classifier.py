@@ -4,7 +4,6 @@
 
 import click
 import os
-import altair as alt
 import numpy as np
 import pandas as pd
 import pickle
@@ -12,7 +11,6 @@ from sklearn.dummy import DummyClassifier
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler 
 from sklearn.model_selection import cross_validate
-from deepchecks.tabular import Dataset
 from sklearn import set_config
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
@@ -22,8 +20,8 @@ warnings.filterwarnings("ignore", category=FutureWarning, module="deepchecks")
 
 
 @click.command()
-@click.option('--x_train_path', type=str, help="filepath of X_train.csv")
-@click.option('--y_train_path', type=str, help="filepath of y_train.csv")
+@click.option('--X_training_data', type=str, help="filepath of X_train.csv")
+@click.option('--y_training_data', type=str, help="filepath of y_train.csv")
 @click.option('--pipeline_to', type=str, help="Path to directory where the pipeline object will be written to")
 @click.option('--results_to', type=str, help="Path to directory where the csv will be written to")
 #@click.option('--seed', type=int, help="Random seed", default=123)
@@ -108,3 +106,9 @@ def main(X_training_data, y_training_data, pipeline_to, results_to):
 
 if __name__ == '__main__':
     main()
+
+# python scripts/fit_classifier.py \
+# --X_training_data=data/processed/X_train.csv \
+# --y_training_data=data/processed/y_train.csv \
+# --pipeline_to=report \
+# --results_to=report
