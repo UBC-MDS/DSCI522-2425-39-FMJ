@@ -18,8 +18,7 @@ import pandas as pd
 @click.command()
 @click.option('--x_train_path', type=str, help="filepath of X_train.csv")
 @click.option('--y_train_path', type=str, help="filepath of y_train.csv")
-@click.option('--write_to_figure', type=str, help="input path/<filename>.png")
-@click.option('--write_to_table', type=str, help="input path/<filename>.csv")
+@click.option('--write_to', type=str, help="input path/<filename>.png")
 
 def main(x_train_path, y_train_path, write_to):
     """
