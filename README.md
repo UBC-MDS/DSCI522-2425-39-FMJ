@@ -47,6 +47,16 @@ python scripts/download_data.py \
 python scripts/validate_data.py \
    --raw_data_path=data/Raw/NHANES_age_prediction.csv \
    --write_to=data/processed/validated_data.csv
+
+python scripts/data_split.py \
+   --validated_data_path=data/processed/validated_data.csv \
+   --write_to=data/processed
+
+python scripts/eda.py \
+    --x_train_path=data/processed/X_train.csv \
+    --y_train_path=data/processed/y_train.csv \
+    --write_to=reports/figures/eda_histogram.png
+
 ```
 
 3. To run the analysis, open src/age_group_classification.ipynb in Jupyter Lab you just launched and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
