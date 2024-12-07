@@ -64,7 +64,7 @@ python scripts/fit_classifier.py \
    --preprocessor_to=results/models \
    --results_to=results/tables
 
-python scripts/evaluation.py \
+python scripts/evaluate.py \
    --x_test_data=data/processed/X_test.csv \
    --y_test_data=data/processed/y_test.csv \
    --pipeline_from=results/models/LogisticRegression_classifier_pipeline.pickle \
