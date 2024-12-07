@@ -77,7 +77,7 @@ Prior to conducting EDA, we split the data set to avoid looking at the test data
 ```{python}
 X_train = pd.read_csv('../data/processed/X_train.csv')
 n_obs = X_train.shape[0]
-summary_table = X_train.describe()
+summary_table = X_train.describe().round(2)
 bmi_25 = float(summary_table.loc['25%', 'bmi'])
 bmi_75 = float(summary_table.loc['75%', 'bmi'])
 bmi_max = float(summary_table.loc['max', 'bmi'])
@@ -87,9 +87,8 @@ bmi_max = float(summary_table.loc['max', 'bmi'])
 #| label: tbl-summary-stats
 #| tbl-cap: Summary Statistics
 Markdown(summary_table.to_markdown())
-```
 
-TODO: JASON TO DECIDE HOW TO VISUALIZE THE SUMMARY STATS TABLE
+```
 
 The training data has `{python} n_obs` observations. Since gender, physical_activity, and diabetic features were categorical, only the mean and standard deviation from the table above were relevant for those columns. Body mass index values below 18 are considered underweight, and values over 40 are considered severely obese. We observed that the middle 50% of values fall between `{python} bmi_25` & `{python} bmi_75`, though the max was `{python} bmi_max`, which is concerningly high. Blood glucose, oral, and blood insulin have their own ranges, so it was necessary to standardize these variables before fitting our model.
 
@@ -97,9 +96,7 @@ The training data has `{python} n_obs` observations. Since gender, physical_acti
 
 The distributions in @fig-feat-distributions below show class imbalance, with very few seniors relative to adults in our dataset. Across numeric variables, mode values for seniors were less pronounced than they were for adults, though ranges seemed similar. Seniors seemed to have higher oral values and lower blood insulin values than adults. 
 
-![Feature Distributions by Age Group (groups are not stacked)](../results/figures/INSERT_FIGURE_FILE_NAME){#fig-feat-distributions width=80%}
-
-TODO: JASON TO UPDATE THE PATH TO THIS FIGURE
+![Feature Distributions by Age Group (groups are not stacked)](../results/figures/eda_histogram.png){#fig-feat-distributions width=80%}
 
 ### Preprocessing features
 
