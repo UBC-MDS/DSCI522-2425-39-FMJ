@@ -61,6 +61,7 @@ python scripts/fit_classifier.py \
    --x_training_data=data/processed/X_train.csv \
    --y_training_data=data/processed/y_train.csv \
    --pipeline_to=results/models \
+   --preprocessor_to=results/models \
    --results_to=results/tables
 
 python scripts/evaluation.py \
