@@ -57,6 +57,19 @@ python scripts/eda.py \
     --y_train_path=data/processed/y_train.csv \
     --write_to=reports/figures/eda_histogram.png
 
+python scripts/fit_classifier.py \
+   --x_training_data=data/processed/X_train.csv \
+   --y_training_data=data/processed/y_train.csv \
+   --pipeline_to=results/models \
+   --results_to=results/tables
+
+python scripts/evaluation.py \
+   --x_test_data=data/processed/X_test.csv \
+   --y_test_data=data/processed/y_test.csv \
+   --pipeline_from=results/models/LogisticRegression_classifier_pipeline.pickle \
+   --matrix_results_to=results/figures/Confusion_matrix.png \
+   --roc_results_to=results/figures/ROC.png
+
 ```
 
 3. To run the analysis, open src/age_group_classification.ipynb in Jupyter Lab you just launched and under the "Kernel" menu click "Restart Kernel and Run All Cells..."

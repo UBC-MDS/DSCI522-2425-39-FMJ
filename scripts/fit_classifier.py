@@ -18,6 +18,8 @@ import os
 import numpy as np
 import pandas as pd
 import pickle
+from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
+from deepchecks.tabular import Dataset
 from sklearn.dummy import DummyClassifier  
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler 
@@ -53,23 +55,88 @@ def mean_cross_val_scores(model, x_train, y_train, **kwargs):
         out_col.append((mean_scores.iloc[i]))
     return pd.Series(data=out_col, index=mean_scores.index)
 
+# Validation check: Target/response variable follows expected distribution
+def validate_category_distribution(y_train, age_group_thresholds, tolerance):
+    """
+    Validate if a categorical variable's distribution meets specified thresholds with tolerance.
+
+    Parameters:
+    - y_train (pd.Series): The categorical variable (target/response variable).
+    - age_group_thresholds (dict): Minimum and maximum proportion thresholds for each category.
+    - tolerance (float): The tolerance to apply when checking proportions.
+
+    Returns:
+    - bool: True if the distribution meets the thresholds with tolerance, False otherwise.
+    """
+    value_counts = y_train.value_counts(normalize=True)  # Get proportions
+
+    # Loop through each category and its thresholds
+    for category, (min_threshold, max_threshold) in age_group_thresholds.items():
+        proportion = value_counts.get(category, 0)  # Get proportion for the category
+        
+        # Check if the proportion is within the threshold range with tolerance
+        if not (min_threshold - tolerance <= proportion <= max_threshold + tolerance):
+            return False  # Return False if the proportion is out of the acceptable range
+    
+    return True  # Return True if all categories meet the criteria
+
+
+
 @click.command()
 @click.option('--x_training_data', type=str, help="filepath of X_train.csv")
 @click.option('--y_training_data', type=str, help="filepath of y_train.csv")
 @click.option('--pipeline_to', type=str, help="Path to directory where the pipeline object will be written to")
+@click.option('--preprocessor_to', type=str, help="Path to directory where the preprocessor will be written to")
 @click.option('--results_to', type=str, help="Path to directory where the csv will be written to")
 #@click.option('--seed', type=int, help="Random seed", default=123)
-def main(x_training_data, y_training_data, pipeline_to, results_to):
+def main(x_training_data, y_training_data, pipeline_to, results_to, preprocessor_to):
     '''Fits the age group classifier to the training data 
     and saves the pipeline object.'''
 
-    seed = 123
-    np.random.seed(seed)
-    set_config(transform_output="pandas")
+    age_group_thresholds = {"Adult": (0.2, 0.9), "Senior": (0.2, 0.9)}
+    tolerance = 0.05
 
     # read in data & preprocessor
     X_train = pd.read_csv(x_training_data)
     y_train = pd.read_csv(y_training_data)
+    
+
+    # Validate the distribution
+    is_valid = validate_category_distribution(y_train, age_group_thresholds, tolerance)
+    print(is_valid)
+
+
+    # validate training data for anomalous correlations between target/response variable 
+    # and features/explanatory variables, 
+    # as well as anomalous correlations between features/explanatory variables
+    train_df = pd.concat([X_train, y_train], axis = 1)
+
+    # Specify categorical features if applicable
+    categorical_features = ["gender", "physical_activity", "diabetic"]
+
+    # Initialize Deepchecks Dataset
+    train_df_ds = Dataset(train_df, label="age_group", cat_features=categorical_features)
+
+    # Feature-Label Correlation Check
+    check_feat_tar_corr = FeatureLabelCorrelation().add_condition_feature_pps_less_than(0.9)
+    check_feat_tar_corr_result = check_feat_tar_corr.run(dataset=train_df_ds)
+
+    # Feature-Feature Correlation Check
+    check_feat_feat_cor = FeatureFeatureCorrelation().add_condition_max_number_of_pairs_above_threshold(threshold=0.92, n_pairs=0)
+    check_feat_feat_cor_result = check_feat_feat_cor.run(dataset=train_df_ds)
+
+    # Validate conditions
+    if not check_feat_tar_corr_result.passed_conditions():
+        raise ValueError("Feature-Label correlation exceeds the maximum acceptable threshold.")
+
+    if not check_feat_feat_cor_result.passed_conditions():
+        raise ValueError("Feature-Feature correlation exceeds the maximum acceptable threshold.")
+   
+
+    seed = 123
+    np.random.seed(seed)
+    set_config(transform_output="pandas")
+    
 
     # Transforming columns based on their type
     numeric_features = ["bmi", "blood_glucose", "oral", "blood_insulin"]
@@ -80,8 +147,10 @@ def main(x_training_data, y_training_data, pipeline_to, results_to):
                    drop='if_binary',dtype = int), binary_features),
         (StandardScaler(), numeric_features)
     )
+    with open(os.path.join(preprocessor_to, "PreprocessorPipeline.pickle"), 'wb') as f:
+        pickle.dump(preprocessor, f)
    
-
+    y_train = y_train.values.ravel()
     # tune model (here, use default hyper parameter values)
     classifier_result = {}
     dummy = DummyClassifier(random_state = 123)
@@ -103,7 +172,7 @@ def main(x_training_data, y_training_data, pipeline_to, results_to):
     model_cv_score = model_cv_score.drop(columns=['fit_time', 'score_time'])
 
     # save model_cv_score as csv to be read in report
-    model_cv_score.to_csv(os.path.join(results_to, "model_cv_score.csv"), index=False)
+    model_cv_score.to_csv(os.path.join(results_to, "model_cv_score.csv"))
     
     # fitting best model 
     lr_pipe_fit = lr_pipe.fit(X_train, y_train)
