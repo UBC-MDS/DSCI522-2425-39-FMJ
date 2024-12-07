@@ -113,10 +113,8 @@ We compared a dummy classifier, logistic regression, and SVC model by mean cross
 #| tbl-cap: Dummy classifier cross validation scores
 
 # TODO: FORGIVE TO ADD FILE NAME THEN DELETE THIS LINE
-dc_results = pd.read_csv('../results/tables/INSERT_DUMMY_CLASSIFIER_CV_TABLE_FILE_NAME')
-Markdown(dc_results.to_markdown())
-
-dc_test_score = round(dc_results['test_score'].mean(), 5)
+results = pd.read_csv('../results/tables/model_cv_score,csv')
+Markdown(results.to_markdown())
 
 ```
 
@@ -128,26 +126,23 @@ Since Logistic Regression had the best mean Cross Validation score, we selected 
 # TODO: FORGIVE TO ADD FILE NAME, UNCOMMENT CODE BELOW, THEN DELETE THIS LINE AND THE ONE BELOW IT
 test_score = 'PLACEHOLDER'
 
-# svc_pipe = pickle.load(open(''../results/models/INSERT_SVC_MODEL_FILE_NAME'))
+best = pickle.load(open('../results/models/INSERT_SVC_MODEL_FILE_NAME'))
 
-# svc_pipe.fit(X_train,y_train)
-# test_score = round(svc_pipe.score(X_test,y_test), 3)
-# test_score_rough = round(svc_pipe.score(X_test,y_test), 2) * 100
+test_score = round(best.score(X_test,y_test), 3)
+test_score_rough = round(best.score(X_test,y_test), 2) * 100
 ```
 
 The model's accuracy on test data was `{python} test_score`.
 
 ### Visualizing model performance
 
-![Confusion matrix of the best model on test data](../results/figures/INSERT_FIGURE_FILE_NAME){#fig-confusion-matrix}
+![Confusion matrix of the best model on test data](../results/figures/Confusion_matrix.png){#fig-confusion-matrix}
 
-TODO: FORGIVE TO ADD PATH TO CONFUSION MATRIX
 
 The confusion matrix (@fig-confusion-matrix) showed that while the model score is `{python} test_score`, it did very poorly at recall and quite poorly at precision.
 
-![ROC curve of the best model on test data](../results/figures/INSERT_FIGURE_FILE_NAME){#fig-roc}
+![ROC curve of the best model on test data](../results/figures/ROC.png){#fig-roc}
 
-TODO: FORGIVE TO ADD PATH TO ROC GRAPH
 
 This performance was reflected in the ROC curve above (@fig-roc). While it could differentiate the positive class "Senior" from the negative class to some extent, the model struggled to achieve both high true positive rates and low false positive rates.
 

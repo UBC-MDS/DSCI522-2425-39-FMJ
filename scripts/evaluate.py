@@ -2,6 +2,19 @@
 # author: Forgive Agbesi
 # date: 2024-12-3
 
+# This script will take in x_train and y_train data and best model's pipeline
+# create a confusion matix and Receiver Operating Characteristic Curve
+# Saves the image of both plots as a png to be read in final report
+
+
+# Usage:
+# python scripts/evaluation.py \
+# --x_test_data=data/processed/X_test.csv \
+# --y_test_data=data/processed/y_test.csv \
+# --pipeline_from=results/models/LogisticRegression_classifier_pipeline.pickle \
+# --matrix_results_to=results/figures/Confusion_matrix.png
+# --roc_results_to=results/figures/ROC.png
+
 import click
 import os
 import numpy as np
