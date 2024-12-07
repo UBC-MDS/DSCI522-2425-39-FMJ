@@ -109,7 +109,7 @@ We one-hot encoded categorical features (gender, physical_activity, and diabetic
 
 We compared a dummy classifier, logistic regression, and SVC model by mean cross validation score. The cross validation scores for each are below.
 
-#### Baseline model
+#### Mean Cross Validation Score for all 3 models
 
 ```{python}
 #| label: tbl-cv-dummy
@@ -123,41 +123,9 @@ dc_test_score = round(dc_results['test_score'].mean(), 5)
 
 ```
 
-#### Logistic regresion
-
-```{python}
-#| label: tbl-cv-logreg
-#| tbl-cap: Logistic regression cross validation scores
-
-# TODO: FORGIVE TO ADD FILE NAME THEN DELETE THIS LINE
-dc_results = pd.read_csv('../results/tables/INSERT_LOGREG_CV_TABLE_FILE_NAME')
-Markdown(lr_results.to_markdown())
-
-lr_mean_test_score = round(lr_results_df['test_score'].mean(), 5)
-```
-
-#### SVC model
-
-```{python}
-#| label: tbl-cv-svc
-#| tbl-cap: SVC cross validation scores
-
-# TODO: FORGIVE TO ADD FILE NAME THEN DELETE THIS LINE
-dc_results = pd.read_csv('../results/tables/INSERT_SVC_CV_TABLE_FILE_NAME')
-Markdown(svc_results.to_markdown())
-svc_mean_test_score = round(svc_results_df['test_score'].mean(), 5)
-```
-
-#### Comparing scores
-
-Model mean CV scores:
-Baseline: `{python} dc_test_score`
-Logistic Regression: `{python} lr_mean_test_score`
-SVC: `{python} scv_mean_test_score`
-
 ### Testing Best Model on Test Data
 
-Since SVC had the best mean CV score, we selected it as our final model.
+Since Logistic Regression had the best mean Cross Validation score, we selected it as our final model.
 
 ```{python}
 # TODO: FORGIVE TO ADD FILE NAME, UNCOMMENT CODE BELOW, THEN DELETE THIS LINE AND THE ONE BELOW IT
