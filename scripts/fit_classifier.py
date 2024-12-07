@@ -24,10 +24,9 @@ warnings.filterwarnings("ignore", category=FutureWarning, module="deepchecks")
 @click.command()
 @click.option('--x_train_path', type=str, help="filepath of X_train.csv")
 @click.option('--y_train_path', type=str, help="filepath of y_train.csv")
-@click.option('--write_to', type=str, help="input path/<filename>.png")
-@click.option('--pipeline-to', type=str, help="Path to directory where the pipeline object will be written to")
-@click.option('--results-to', type=str, help="Path to directory where the csv will be written to")
-@click.option('--seed', type=int, help="Random seed", default=123)
+@click.option('--pipeline_to', type=str, help="Path to directory where the pipeline object will be written to")
+@click.option('--results_to', type=str, help="Path to directory where the csv will be written to")
+#@click.option('--seed', type=int, help="Random seed", default=123)
 
 def mean_cross_val_scores(model, X_train, y_train, **kwargs):
     """
@@ -54,10 +53,12 @@ def mean_cross_val_scores(model, X_train, y_train, **kwargs):
     return pd.Series(data=out_col, index=mean_scores.index)
 
 
-def main(X_training_data, y_training_data, preprocessor, pipeline_to, results_to, seed):
+
+def main(X_training_data, y_training_data, pipeline_to, results_to):
     '''Fits the age group classifier to the training data 
     and saves the pipeline object.'''
 
+    seed = 123
     np.random.seed(seed)
     set_config(transform_output="pandas")
 
@@ -83,9 +84,6 @@ def main(X_training_data, y_training_data, preprocessor, pipeline_to, results_to
     classifier_result['Dummy']= mean_cross_val_scores(dc_pipe, X_train, y_train, cv=5, 
                                                         return_train_score=True)
                                                         
-    
-
-
     lr = LogisticRegression(random_state = 123, class_weight='balanced')
     lr_pipe = make_pipeline(preprocessor, lr)
     classifier_result['Logistic']= mean_cross_val_scores(lr_pipe, X_train, y_train, cv=5, 
@@ -96,7 +94,6 @@ def main(X_training_data, y_training_data, preprocessor, pipeline_to, results_to
     classifier_result['SVC']= mean_cross_val_scores(svc_pipe, X_train, y_train, cv=5, 
                                                     return_train_score=True)
                                                          
-   
     model_cv_score = pd.DataFrame(classifier_result).T
     model_cv_score = model_cv_score.drop(columns=['fit_time', 'score_time'])
 

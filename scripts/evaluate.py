@@ -15,11 +15,13 @@ from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay
 @click.option('--X-test-data', type=str, help="Path to scaled test data")
 @click.option('--y-test-data', type=str, help="Optional: columns to drop")
 @click.option('--pipeline-from', type=str, help="Path to directory where the fit pipeline object lives")
-@click.option('--results-to', type=str, help="Path to directory where the plot will be written to")
+@click.option('--results-to', type=str, help="Path to directory where the images will be written to")
 
-def main(X_test_data, y_test_data, pipeline_from, results_to, seed):
+def main(X_test_data, y_test_data, pipeline_from, results_to):
     '''Evaluates the age group classifier on the test data 
     and saves the evaluation results.'''
+
+    seed = 123
     np.random.seed(seed)
     set_config(transform_output="pandas")
 
