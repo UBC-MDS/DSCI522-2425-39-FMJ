@@ -22,11 +22,11 @@ warnings.filterwarnings("ignore", category=FutureWarning, module="deepchecks")
 
 
 @click.command()
-@click.option('--X-training-data', type=str, help="Path to training data")
-@click.option('--y-training-data', type=str, help="Path to training data")
-@click.option('--columns-to-drop', type=str, help="Optional: columns to drop")
+@click.option('--x_train_path', type=str, help="filepath of X_train.csv")
+@click.option('--y_train_path', type=str, help="filepath of y_train.csv")
+@click.option('--write_to', type=str, help="input path/<filename>.png")
 @click.option('--pipeline-to', type=str, help="Path to directory where the pipeline object will be written to")
-@click.option('--plot-to', type=str, help="Path to directory where the plot will be written to")
+@click.option('--results-to', type=str, help="Path to directory where the csv will be written to")
 @click.option('--seed', type=int, help="Random seed", default=123)
 
 def mean_cross_val_scores(model, X_train, y_train, **kwargs):
@@ -54,7 +54,7 @@ def mean_cross_val_scores(model, X_train, y_train, **kwargs):
     return pd.Series(data=out_col, index=mean_scores.index)
 
 
-def main(X_training_data, y_training_data, preprocessor, pipeline_to, plot_to, seed):
+def main(X_training_data, y_training_data, preprocessor, pipeline_to, results_to, seed):
     '''Fits the age group classifier to the training data 
     and saves the pipeline object.'''
 
@@ -86,15 +86,12 @@ def main(X_training_data, y_training_data, preprocessor, pipeline_to, plot_to, s
     
 
 
-    lr = LogisticRegression(random_state = 123)
+    lr = LogisticRegression(random_state = 123, class_weight='balanced')
     lr_pipe = make_pipeline(preprocessor, lr)
     classifier_result['Logistic']= mean_cross_val_scores(lr_pipe, X_train, y_train, cv=5, 
                                                          return_train_score=True)
                                                          
-    
-    
-
-    svc = SVC(random_state = 123)
+    svc = SVC(random_state = 123, class_weight='balanced')
     svc_pipe = make_pipeline(preprocessor, svc)
     classifier_result['SVC']= mean_cross_val_scores(svc_pipe, X_train, y_train, cv=5, 
                                                     return_train_score=True)
@@ -103,28 +100,14 @@ def main(X_training_data, y_training_data, preprocessor, pipeline_to, plot_to, s
     model_cv_score = pd.DataFrame(classifier_result).T
     model_cv_score = model_cv_score.drop(columns=['fit_time', 'score_time'])
 
-
     # save model_cv_score as image or file to be read in report
-    #
-    #
-    #
-    #
-    # 
-    # 
-    # 
-    # 
-    #
-    
-
-
-
-
+    model_cv_score.to_csv(os.path.join(results_to, "model_cv_score.csv"), index=False)
     
     # fitting best model 
-    svc_pipe_fit = svc_pipe.fit(X_train, y_train)
+    lr_pipe_fit = lr_pipe.fit(X_train, y_train)
 
-    with open(os.path.join(pipeline_to, "svc_classifier_pipeline.pickle"), 'wb') as f:
-        pickle.dump(svc_pipe_fit, f)
+    with open(os.path.join(pipeline_to, "LogisticRegression_classifier_pipeline.pickle"), 'wb') as f:
+        pickle.dump(lr_pipe_fit, f)
 
 if __name__ == '__main__':
     main()
