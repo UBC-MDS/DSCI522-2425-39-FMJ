@@ -11,6 +11,7 @@
 # --x_training_data=data/processed/X_train.csv \
 # --y_training_data=data/processed/y_train.csv \
 # --pipeline_to=results/models \
+# --preprocessor_to=results/models \
 # --results_to=results/tables
 
 import click
