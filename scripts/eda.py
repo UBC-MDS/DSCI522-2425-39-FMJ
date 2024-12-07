@@ -2,14 +2,14 @@
 # author: Jason Lee
 # date: 2024-12-03
 
-# This script will take in X_train and y_train to create a histogram using Altair for EDA purposes.
-# The histogram is saved as a png to a specified save path
+# This script will take in X_train and y_train data and creates a histogram using Altair for EDA purposes. 
+# The histogram is saved as a png to a specified save path.
 
 # Usage:
 # python scripts/eda.py \
 #    --x_train_path=data/processed/X_train.csv \
 #    --y_train_path=data/processed/y_train.csv \
-#    --write_to=reports/figures/eda_histogram.png
+#    --write_to=results/figures/eda_histogram.png
 
 import click
 import altair as alt
@@ -18,11 +18,13 @@ import pandas as pd
 @click.command()
 @click.option('--x_train_path', type=str, help="filepath of X_train.csv")
 @click.option('--y_train_path', type=str, help="filepath of y_train.csv")
-@click.option('--write_to', type=str, help="input path/<filename>.png")
+@click.option('--write_to_figure', type=str, help="input path/<filename>.png")
+@click.option('--write_to_table', type=str, help="input path/<filename>.csv")
 
 def main(x_train_path, y_train_path, write_to):
     """
-    This script will take in the X_train and y_train and create a histogram using Altair for EDA purposes.
+    This script will take in X_train and y_train data and do the following:
+    1. Create a histogram using Altair for EDA purposes. The histogram is saved as a png to a specified save path.
     """
 
     # Plotting the distributions for each variable

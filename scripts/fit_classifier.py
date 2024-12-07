@@ -2,6 +2,17 @@
 # author: Forgive Agbesi
 # date: 2024-12-3
 
+# This script will take in X_train and y_train data and perform crossvalidation on a DummyClassifier, a LogisticRegression and a SVC
+# Saves the CV results table as a csv to be read in final report
+# Will also save the Logistic Regression model as a pickle object
+
+# Usage:
+# python scripts/fit_classifier.py \
+# --x_training_data=data/processed/X_train.csv \
+# --y_training_data=data/processed/y_train.csv \
+# --pipeline_to=results/models \
+# --results_to=results/tables
+
 import click
 import os
 import numpy as np
@@ -18,15 +29,7 @@ from sklearn.pipeline import make_pipeline
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, module="deepchecks")
 
-
-@click.command()
-@click.option('--X_training_data', type=str, help="filepath of X_train.csv")
-@click.option('--y_training_data', type=str, help="filepath of y_train.csv")
-@click.option('--pipeline_to', type=str, help="Path to directory where the pipeline object will be written to")
-@click.option('--results_to', type=str, help="Path to directory where the csv will be written to")
-#@click.option('--seed', type=int, help="Random seed", default=123)
-
-def mean_cross_val_scores(model, X_train, y_train, **kwargs):
+def mean_cross_val_scores(model, x_train, y_train, **kwargs):
     """
     Returns mean and std of cross validation
 
@@ -34,7 +37,7 @@ def mean_cross_val_scores(model, X_train, y_train, **kwargs):
     ----------
         model :
             scikit-learn model
-        X_train : numpy array or pandas DataFrame
+        x_train : numpy array or pandas DataFrame
             X in the training data
         y_train :
             y in the training data
@@ -42,7 +45,7 @@ def mean_cross_val_scores(model, X_train, y_train, **kwargs):
     ----------
         pandas Series with mean scores from cross_validation
     """
-    scores = cross_validate(model, X_train, y_train, **kwargs)
+    scores = cross_validate(model, x_train, y_train, **kwargs)
     mean_scores = pd.DataFrame(scores).mean()
     out_col = []
 
@@ -50,9 +53,13 @@ def mean_cross_val_scores(model, X_train, y_train, **kwargs):
         out_col.append((mean_scores.iloc[i]))
     return pd.Series(data=out_col, index=mean_scores.index)
 
-
-
-def main(X_training_data, y_training_data, pipeline_to, results_to):
+@click.command()
+@click.option('--x_training_data', type=str, help="filepath of X_train.csv")
+@click.option('--y_training_data', type=str, help="filepath of y_train.csv")
+@click.option('--pipeline_to', type=str, help="Path to directory where the pipeline object will be written to")
+@click.option('--results_to', type=str, help="Path to directory where the csv will be written to")
+#@click.option('--seed', type=int, help="Random seed", default=123)
+def main(x_training_data, y_training_data, pipeline_to, results_to):
     '''Fits the age group classifier to the training data 
     and saves the pipeline object.'''
 
@@ -61,7 +68,7 @@ def main(X_training_data, y_training_data, pipeline_to, results_to):
     set_config(transform_output="pandas")
 
     # read in data & preprocessor
-    X_train = pd.read_csv(X_training_data)
+    X_train = pd.read_csv(x_training_data)
     y_train = pd.read_csv(y_training_data)
 
     # Transforming columns based on their type
@@ -95,7 +102,7 @@ def main(X_training_data, y_training_data, pipeline_to, results_to):
     model_cv_score = pd.DataFrame(classifier_result).T
     model_cv_score = model_cv_score.drop(columns=['fit_time', 'score_time'])
 
-    # save model_cv_score as image or file to be read in report
+    # save model_cv_score as csv to be read in report
     model_cv_score.to_csv(os.path.join(results_to, "model_cv_score.csv"), index=False)
     
     # fitting best model 
@@ -107,8 +114,3 @@ def main(X_training_data, y_training_data, pipeline_to, results_to):
 if __name__ == '__main__':
     main()
 
-# python scripts/fit_classifier.py \
-# --X_training_data=data/processed/X_train.csv \
-# --y_training_data=data/processed/y_train.csv \
-# --pipeline_to=report \
-# --results_to=report
