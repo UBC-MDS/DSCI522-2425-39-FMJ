@@ -26,6 +26,7 @@ dependencies:
   - ucimlrepo==0.0.7
   - pandera==0.20.4
   - pandas==2.2.2
+  - quarto=1.5.57
   
   - pip:
     - mglearn==0.2.0
