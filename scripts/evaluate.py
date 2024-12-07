@@ -15,12 +15,13 @@ from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay
 @click.option('--X-test-data', type=str, help="Path to scaled test data")
 @click.option('--y-test-data', type=str, help="Optional: columns to drop")
 @click.option('--pipeline-from', type=str, help="Path to directory where the fit pipeline object lives")
-@click.option('--results-to', type=str, help="Path to directory where the plot will be written to")
-@click.option('--seed', type=int, help="Random seed", default=123)
+@click.option('--results-to', type=str, help="Path to directory where the images will be written to")
 
-def main(X_test_data, y_test_data, pipeline_from, results_to, seed):
+def main(X_test_data, y_test_data, pipeline_from, results_to):
     '''Evaluates the age group classifier on the test data 
     and saves the evaluation results.'''
+
+    seed = 123
     np.random.seed(seed)
     set_config(transform_output="pandas")
 
@@ -44,7 +45,7 @@ def main(X_test_data, y_test_data, pipeline_from, results_to, seed):
     )
     
     # test_confMatrix
-    # save image for report
+    test_confMatrix.save(os.path.join(results_to, "test_confMatrix.png"), scale_factor=2.0)
     #
     #
     #
@@ -55,13 +56,8 @@ def main(X_test_data, y_test_data, pipeline_from, results_to, seed):
     pos_label= "Senior",
     )
     # test_confMatrix
-    # save image for report
-    #
-    #
-    #
+    test_RocCurve.save(os.path.join(results_to, "test_RocCurve.png"), scale_factor=2.0)
 
-   
-    #confusion_matrix.to_csv(os.path.join(results_to, "confusion_matrix.csv"))
 
 if __name__ == '__main__':
     main()
