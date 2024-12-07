@@ -55,7 +55,7 @@ python scripts/data_split.py \
 python scripts/eda.py \
     --x_train_path=data/processed/X_train.csv \
     --y_train_path=data/processed/y_train.csv \
-    --write_to=reports/figures/eda_histogram.png
+    --write_to=results/figures/eda_histogram.png
 
 python scripts/fit_classifier.py \
    --x_training_data=data/processed/X_train.csv \
