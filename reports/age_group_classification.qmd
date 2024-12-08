@@ -17,7 +17,7 @@ from IPython.display import Markdown, display
 from tabulate import tabulate
 import pickle
 import warnings
-#warnings.filterwarnings("ignore", category=UserWarning, module="sklearn.base")
+warnings.filterwarnings("ignore", category=UserWarning, module="sklearn.base")
 
 ```
 
