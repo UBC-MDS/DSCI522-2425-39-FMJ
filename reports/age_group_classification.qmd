@@ -16,6 +16,9 @@ import pandas as pd
 from IPython.display import Markdown, display
 from tabulate import tabulate
 import pickle
+import warnings
+#warnings.filterwarnings("ignore", category=UserWarning, module="sklearn.base")
+
 ```
 
 ## Summary
@@ -31,15 +34,25 @@ Formally, the question this project seeks to answer is: Can information about th
 The dataset used to answer this question is the National Health and Nutrition Health Survey 2013-2014 (NHANES) Age Prediction Subset (@national_health_and_nutrition_health_survey_2013-2014_(nhanes)_age_prediction_subset_887). It was originally prepared for a research paper on predicting diabetes and cardiovascular disease in patients (@DinhMiertschin2016 and @MukhtarAzwari2021). The dataset's stated purpose was to assess the health and nutritional status of adults and children in the United States (@Papazafiropoulou2024), however respondents were classified as either Adults (respondents under 65 years of age) or Seniors (respondents 65 years of age or older). Respondents were located in the United States and provided data through interviews, physical examinations, and laboratory tests to the National Center for Health Statistics (NCHS) (part of the Centers for Disease Control and Prevention (CDC)).
 
 The dataset has 10 variables and 2278 rows, with each row representing a respondent. The variables are:
+
 1. SEQN - The respondent ID aka sequence number
+
 2. age_group - The respondent's age group (adult or senior)
+
 3. RIDAGEYR - The respondent's age in years
+
 4. RIAGENDR - The respondent's gender (1 represents Male, 2 represents Female)
+
 5. PAQ605 - Whether the respondent engages in weekly moderate or vigorous physical activity (1 means they do, 2 means they don't)
+
 6. BMXBMI - The respondent's body mass index
+
 7. LBXGLU - The respondent's blood glucose after fasting
+
 8. DIQ010 - Whether the respondent is diabetic (1 is yes, 2 is no)
+
 9. LBXGLT - A measure of the respondent's oral health
+
 10. LBXIN - The respondent's blood insulin levels
 
 According to the dataset description, there are no missing values, though EDA found some unexpected values for physical activity and diabetic. Since no explanation was provided for these codes, we omitted these respondent's from our analysis.
@@ -112,8 +125,8 @@ We compared a dummy classifier, logistic regression, and SVC model by mean cross
 #| label: tbl-cv-dummy
 #| tbl-cap: Dummy classifier cross validation scores
 
-# TODO: FORGIVE TO ADD FILE NAME THEN DELETE THIS LINE
-results = pd.read_csv('../results/tables/model_cv_score,csv')
+# FORGIVE TO ADD FILE NAME THEN DELETE THIS LINE
+results = pd.read_csv('../results/tables/model_cv_score.csv')
 Markdown(results.to_markdown())
 
 ```
@@ -126,7 +139,10 @@ Since Logistic Regression had the best mean Cross Validation score, we selected 
 # TODO: FORGIVE TO ADD FILE NAME, UNCOMMENT CODE BELOW, THEN DELETE THIS LINE AND THE ONE BELOW IT
 test_score = 'PLACEHOLDER'
 
-best = pickle.load(open('../results/models/INSERT_SVC_MODEL_FILE_NAME'))
+best = pickle.load(open('../results/models/LogisticRegression_classifier_pipeline.pickle', 'rb'))
+
+X_test = pd.read_csv('../data/processed/X_test.csv')
+y_test = pd.read_csv('../data/processed/y_test.csv')
 
 test_score = round(best.score(X_test,y_test), 3)
 test_score_rough = round(best.score(X_test,y_test), 2) * 100
