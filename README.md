@@ -61,9 +61,10 @@ python scripts/fit_classifier.py \
    --x_training_data=data/processed/X_train.csv \
    --y_training_data=data/processed/y_train.csv \
    --pipeline_to=results/models \
+   --preprocessor_to=results/models \
    --results_to=results/tables
 
-python scripts/evaluation.py \
+python scripts/evaluate.py \
    --x_test_data=data/processed/X_test.csv \
    --y_test_data=data/processed/y_test.csv \
    --pipeline_from=results/models/LogisticRegression_classifier_pipeline.pickle \
@@ -72,11 +73,9 @@ python scripts/evaluation.py \
 
 ```
 
-3. To run the analysis, open src/age_group_classification.ipynb in Jupyter Lab you just launched and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
-
 ### Clean up
 
-1. To shut down the container and clean up the resources, type `Cntrl` + `C` in the terminal where you launched the container, and then type `docker compose rm`
+1. To shut down the container and clean up the resources, type `Ctrl` + `C` in the terminal where you launched the container, and then type `docker compose rm`
 
 ## Developer notes
 
@@ -85,15 +84,15 @@ python scripts/evaluation.py \
 - `conda-lock` (version 2.5.7 or higher)
 
 ### Adding a new dependency
-1. Add the dependency to the environment.yml file on a new branch.
+1. Add the dependency to the `environment.yml` file on a new branch.
 
-2. Run conda-lock -k explicit --file environment.yml -p linux-64 to update the conda-linux-64.lock file.
+2. Run `conda-lock -k explicit --file environment.yml -p linux-64` to update the conda-linux-64.lock file.
 
 3. Re-build the Docker image locally to ensure it builds and runs properly.
 
 4. Push the changes to GitHub. A new Docker image will be built and pushed to Docker Hub automatically. It will be tagged with the SHA for the commit that changed the file.
 
-5. Update the docker-compose.yml file on your branch to use the new container image (make sure to update the tag specifically).
+5. Update the `docker-compose.yml` file on your branch to use the new container image (make sure to update the tag specifically).
 
 6. Send a pull request to merge the changes into the main branch.
 
