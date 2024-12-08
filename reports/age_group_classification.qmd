@@ -31,7 +31,7 @@ While taking care of elders is a core value of many cultures, this is not a hall
 
 Formally, the question this project seeks to answer is: Can information about the health and nutritional status of Americans be used to predict whether they are adults or seniors?
 
-The dataset used to answer this question is the National Health and Nutrition Health Survey 2013-2014 (NHANES) Age Prediction Subset (@national_health_and_nutrition_health_survey_2013-2014_(nhanes)_age_prediction_subset_887). It was originally prepared for a research paper on predicting diabetes and cardiovascular disease in patients (@DinhMiertschin2016 and @MukhtarAzwari2021). The dataset's stated purpose was to assess the health and nutritional status of adults and children in the United States (@Papazafiropoulou2024), however respondents were classified as either Adults (respondents under 65 years of age) or Seniors (respondents 65 years of age or older). Respondents were located in the United States and provided data through interviews, physical examinations, and laboratory tests to the National Center for Health Statistics (NCHS) (part of the Centers for Disease Control and Prevention (CDC)).
+The dataset used to answer this question is the National Health and Nutrition Health Survey 2013-2014 (NHANES) Age Prediction Subset (@NHANES2019). It was originally prepared for a research paper on predicting diabetes and cardiovascular disease in patients (@DinhMiertschin2016 and @MukhtarAzwari2021). The dataset's stated purpose was to assess the health and nutritional status of adults and children in the United States (@Papazafiropoulou2024), however respondents were classified as either Adults (respondents under 65 years of age) or Seniors (respondents 65 years of age or older). Respondents were located in the United States and provided data through interviews, physical examinations, and laboratory tests to the National Center for Health Statistics (NCHS) (part of the Centers for Disease Control and Prevention (CDC)).
 
 The dataset has 10 variables and 2278 rows, with each row representing a respondent. The variables are:
 
@@ -119,13 +119,10 @@ We one-hot encoded categorical features (gender, physical_activity, and diabetic
 
 We compared a dummy classifier, logistic regression, and SVC model by mean cross validation score. The cross validation scores for each are below.
 
-#### Mean Cross Validation Score for all 3 models
-
 ```{python}
 #| label: tbl-cv-dummy
-#| tbl-cap: Dummy classifier cross validation scores
+#| tbl-cap: Mean cross validation scores
 
-# FORGIVE TO ADD FILE NAME THEN DELETE THIS LINE
 results = pd.read_csv('../results/tables/model_cv_score.csv')
 Markdown(results.to_markdown())
 
@@ -133,12 +130,9 @@ Markdown(results.to_markdown())
 
 ### Testing Best Model on Test Data
 
-Since Logistic Regression had the best mean Cross Validation score, we selected it as our final model.
+Since logistic regression had the best mean cross validation score, we selected it as our final model.
 
 ```{python}
-# TODO: FORGIVE TO ADD FILE NAME, UNCOMMENT CODE BELOW, THEN DELETE THIS LINE AND THE ONE BELOW IT
-test_score = 'PLACEHOLDER'
-
 best = pickle.load(open('../results/models/LogisticRegression_classifier_pipeline.pickle', 'rb'))
 
 X_test = pd.read_csv('../data/processed/X_test.csv')
@@ -154,11 +148,9 @@ The model's accuracy on test data was `{python} test_score`.
 
 ![Confusion matrix of the best model on test data](../results/figures/Confusion_matrix.png){#fig-confusion-matrix}
 
-
 The confusion matrix (@fig-confusion-matrix) showed that while the model score is `{python} test_score`, it did very poorly at recall and quite poorly at precision.
 
 ![ROC curve of the best model on test data](../results/figures/ROC.png){#fig-roc}
-
 
 This performance was reflected in the ROC curve above (@fig-roc). While it could differentiate the positive class "Senior" from the negative class to some extent, the model struggled to achieve both high true positive rates and low false positive rates.
 
