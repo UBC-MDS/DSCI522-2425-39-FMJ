@@ -29,6 +29,11 @@ Michael Hewlett
 Project maintainers who do not follow or enforce the Code of Conduct in good faith may face 
 temporary or permanent repercussions as determined by other members of the project and the MDS faculty.
 
+## Enforcement
+Where there is a breach of code of conduct, contact the project team at jasonmlee.career@gmail.com. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident.
+
+Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
+
 ## Procedure for reporting and dealing with unacceptable behaviour
 First strike - A written slack notice that outlines the violation of the team contract.
 Second strike - Reach out to the lab instructor or TAs of the issues with the teammate.
