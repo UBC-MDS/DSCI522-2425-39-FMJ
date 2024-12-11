@@ -3,7 +3,7 @@
 # date: 2024-12-11
 
 
-import pytest
+#import pytest
 import pandas as pd
 from src.validate_train_data import validate_category_distribution
 
