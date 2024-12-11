@@ -24,64 +24,14 @@ from deepchecks.tabular import Dataset
 from sklearn.dummy import DummyClassifier  
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler 
-from sklearn.model_selection import cross_validate
 from sklearn import set_config
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.pipeline import make_pipeline
+from src.validate_train_data import validate_category_distribution
+from src.mean_cross_validation_score import mean_cross_val_scores
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, module="deepchecks")
-
-def mean_cross_val_scores(model, x_train, y_train, **kwargs):
-    """
-    Returns mean and std of cross validation
-
-    Parameters  
-    ----------
-        model :
-            scikit-learn model
-        x_train : numpy array or pandas DataFrame
-            X in the training data
-        y_train :
-            y in the training data
-    Returns
-    ----------
-        pandas Series with mean scores from cross_validation
-    """
-    scores = cross_validate(model, x_train, y_train, **kwargs)
-    mean_scores = pd.DataFrame(scores).mean()
-    out_col = []
-
-    for i in range(len(mean_scores)):
-        out_col.append((mean_scores.iloc[i]))
-    return pd.Series(data=out_col, index=mean_scores.index)
-
-# Validation check: Target/response variable follows expected distribution
-def validate_category_distribution(y_train, age_group_thresholds, tolerance):
-    """
-    Validate if a categorical variable's distribution meets specified thresholds with tolerance.
-
-    Parameters:
-    - y_train (pd.Series): The categorical variable (target/response variable).
-    - age_group_thresholds (dict): Minimum and maximum proportion thresholds for each category.
-    - tolerance (float): The tolerance to apply when checking proportions.
-
-    Returns:
-    - bool: True if the distribution meets the thresholds with tolerance, False otherwise.
-    """
-    value_counts = y_train.value_counts(normalize=True)  # Get proportions
-
-    # Loop through each category and its thresholds
-    for category, (min_threshold, max_threshold) in age_group_thresholds.items():
-        proportion = value_counts.get(category, 0)  # Get proportion for the category
-        
-        # Check if the proportion is within the threshold range with tolerance
-        if not (min_threshold - tolerance <= proportion <= max_threshold + tolerance):
-            return False  # Return False if the proportion is out of the acceptable range
-    
-    return True  # Return True if all categories meet the criteria
-
-
 
 @click.command()
 @click.option('--x_training_data', type=str, help="filepath of X_train.csv")
