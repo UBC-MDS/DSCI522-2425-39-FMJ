@@ -28,6 +28,8 @@ from sklearn import set_config
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.pipeline import make_pipeline
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from src.validate_train_data import validate_category_distribution
 from src.mean_cross_validation_score import mean_cross_val_scores
 import warnings
