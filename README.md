@@ -52,7 +52,7 @@ make all
 5. To render the final report, enter the following command in the terminal in the project root:
 
 ```bash
-quarto render age_group_classification.qmd --to pdf
+quarto render reports/age_group_classification.qmd --to pdf
 ```
 
 ### Clean up
