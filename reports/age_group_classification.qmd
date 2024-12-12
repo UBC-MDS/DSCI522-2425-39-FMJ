@@ -57,6 +57,8 @@ The dataset has 10 variables and 2278 rows, with each row representing a respond
 
 According to the dataset description, there are no missing values, though EDA found some unexpected values for physical activity and diabetic. Since no explanation was provided for these codes, we omitted these respondent's from our analysis.
 
+The following software packages were used in this projects: @Chorev_Deepchecks_A_Library_2022, @2020NumPy-Array, @niels_bantilan-proc-scipy-2020, @Pedregosa_Scikit-learn_Machine_Learning_2011, @The_pandas_development_team_pandas-dev_pandas_Pandas, @VanderPlas2018, @python.
+
 ## Methods & Results
 
 ### Description of methods
