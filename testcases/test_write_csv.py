@@ -7,6 +7,8 @@ import os
 import unittest
 import pandas as pd
 from src.write_csv import write_csv
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 class TestWriteCSV(unittest.TestCase):
     

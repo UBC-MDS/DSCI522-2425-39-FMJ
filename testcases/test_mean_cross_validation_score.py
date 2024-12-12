@@ -9,6 +9,9 @@ from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from src.mean_cross_validation_score import mean_cross_val_scores
 
 
@@ -25,7 +28,7 @@ def test_mean_cross_val_scores():
     rf_model = RandomForestClassifier(random_state=42)
     lr_model = LogisticRegression(random_state=42, max_iter=500)
 
-    # Test RandomForestClassifier
+    # Test SVC
     rf_scores = mean_cross_val_scores(rf_model, X_train, y_train, cv=5, scoring="accuracy")
     assert isinstance(rf_scores, pd.Series), "Output should be a pandas Series."
     assert "test_score" in rf_scores.index, "Expected 'test_score' in Series index."
@@ -46,4 +49,4 @@ def test_mean_cross_val_scores():
     assert np.isfinite(lr_scores["test_score"]), "Mean test_score should be finite."
 
 if __name__ == "__main__":
-    pytest.main(["-v", "test_mean_cross_val.py"])
+    pytest.main(["-v", "testcases/test_mean_cross_validation_score.py"])

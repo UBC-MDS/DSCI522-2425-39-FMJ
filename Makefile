@@ -86,7 +86,7 @@ clean-dats:
 		data/processed/X_test.csv \
 		data/processed/X_train.csv \
 		data/processed/y_test.csv \
-		data/processed/y_train.csv
+		data/processed/y_train.csv 
 
 clean-eda:
 	rm -f results/figures/eda_histogram.png
