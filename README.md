@@ -12,9 +12,6 @@ In this analysis we explored the use of several classification models to predict
 ## Report
 The final report can be found [here](https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/blob/main/reports/age_group_classification.pdf)
 
-## Dependencies
-- [Docker](https://www.docker.com)
-
 ## Usage
 
 ### Setup
@@ -64,6 +61,8 @@ quarto render reports/age_group_classification.qmd --to pdf
 ### Developer dependencies
 - `conda` (version 23.9.0 or higher)
 - `conda-lock` (version 2.5.7 or higher)
+- [Docker](https://www.docker.com)
+- For a full list of dependencies, please refer to [environment.yml](https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/blob/main/environments/environment.yml)
 
 ### Adding a new dependency
 1. Add the dependency to the `environment.yml` file on a new branch.
