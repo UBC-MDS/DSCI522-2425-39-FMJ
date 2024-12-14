@@ -3,7 +3,7 @@
 # date: 2024-12-11
 
 
-#import pytest
+import pytest
 import pandas as pd
 import os
 import sys
@@ -23,10 +23,22 @@ def test_validate_category_distribution():
 
     # Case 2: Invalid category distribution (A proportion too high)
     y_train = pd.Series(["A", "A", "A", "B", "B", "C", "C", "C"])
+    thresholds = {
+        "A": (0.1, 0.3),
+        "B": (0.2, 0.4),
+        "C": (0.2, 0.5)
+    }
     assert validate_category_distribution(y_train, thresholds, tolerance) == False, "Distribution exceeding threshold should fail."
 
     # Case 3: Missing category
+    thresholds = {
+    "A": (0.1, 0.4),
+    "B": (0.2, 0.4),
+    "C": (0.2, 0.5),
+    "D": (0.1, 0.3)  # Adding a missing category 'D'
+}
     y_train = pd.Series(["A", "A", "B", "B", "B", "C", "C", "C"])
+    tolerance = 0.05
     assert validate_category_distribution(y_train, thresholds, tolerance) == False, "Missing category should fail."
 
     # Case 4: All categories meet thresholds with tolerance
