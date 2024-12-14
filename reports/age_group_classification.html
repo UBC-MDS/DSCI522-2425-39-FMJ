@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Forgive Agbesi, Jason Lee and Michael Hewlett">
+<meta name="dcterms.date" content="2024-12-13">
+
+<title>Predicting age group from health and nutritional status of Americans</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="age_group_classification_files/libs/clipboard/clipboard.min.js"></script>
+<script src="age_group_classification_files/libs/quarto-html/quarto.js"></script>
+<script src="age_group_classification_files/libs/quarto-html/popper.min.js"></script>
+<script src="age_group_classification_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="age_group_classification_files/libs/quarto-html/anchor.min.js"></script>
+<link href="age_group_classification_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="age_group_classification_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="age_group_classification_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="age_group_classification_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="age_group_classification_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="../age_group_classification.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Predicting age group from health and nutritional status of Americans</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Forgive Agbesi, Jason Lee and Michael Hewlett </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 13, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>In this analysis we explored the use of several classification models to predict whether a respondent is an adult or senior (essentially below or above age 65) based on their health and nutritional data. Our most promising model used Logistic Regression. While it appeared promising, much of the model’s accuracy was achieved by classifying most respondents as adults, since this was the majority class. Precision and recall for predicting the senior class was quite low. This suggests that the model has considerable room for improvement, which could be achieved through optimizing the hyperparameters and selecting models based on precision, recall, or f1 scores, rather than general accuracy. With the goal of correctly classifying each group, false positive and false negative errors were both equally important for our analysis, and applying class weighting is worth exploring in future research. Once the model performs better on those metrics, it would be worth exploring which health and nutritional features are most predictive of age, which could provide suggestions for strategic public health programs.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Understanding age groups, particularly distinguishing seniors from non-seniors, is an important aspect of healthcare, as it can significantly influence medical decisions, resource allocation, and policy development. In many cultures, especially in non-Western societies, caring for elders is a deeply ingrained value. However, this is not always the case in Western societies, such as the United States, where healthcare and social services for seniors may not always receive the attention they require. According to the Healthy Aging 2022 report, the aging population in the U.S. faces unique challenges that can affect their health outcomes.</p>
+<p>While taking care of elders is a core value of many cultures, this is not a hallmark of many western societies, including the United States (<span class="citation" data-cites="HealthyAging2022">Healthy Aging Center (<a href="#ref-HealthyAging2022" role="doc-biblioref">2022</a>)</span>). Given these challenges, we ask: Can health measures (such as activity levels, medical conditions, and lifestyle factors) predict whether an individual is a senior in the context of the U.S.? This is a critical question because understanding how health data correlates with age classification can help improve resource allocation and public health interventions aimed at ensuring that older adults receive the care they need.</p>
+<p>From a real-world perspective, stakeholders in healthcare, public health, and policy (such as hospitals, insurance companies, and government agencies) are invested in ensuring that seniors have access to adequate healthcare services, regardless of their age. Predicting senior status using health data can help these stakeholders tailor interventions, optimize healthcare services, and promote balanced health outcomes across different age groups.</p>
+<p>Thus, the goal of this analysis is not just to classify individuals based on age, but to use health-related metrics to better understand and address the needs of an aging population, improving quality of life and reducing disparities in healthcare provision for seniors.</p>
+<p>The dataset used to answer this question is the National Health and Nutrition Survey 2013-2014 (NHANES) Age Prediction Subset (<span class="citation" data-cites="NHANES2019">NHANES (<a href="#ref-NHANES2019" role="doc-biblioref">2019</a>)</span>). It was originally prepared for a research paper on predicting diabetes and cardiovascular disease in patients (<span class="citation" data-cites="DinhMiertschin2016">Dinh and Miertschin (<a href="#ref-DinhMiertschin2016" role="doc-biblioref">2016</a>)</span> and <span class="citation" data-cites="MukhtarAzwari2021">Mukhtar and Al Azwari (<a href="#ref-MukhtarAzwari2021" role="doc-biblioref">2021</a>)</span>). The dataset’s stated purpose was to assess the health and nutritional status of adults and children in the United States (<span class="citation" data-cites="Papazafiropoulou2024">Papazafiropoulou (<a href="#ref-Papazafiropoulou2024" role="doc-biblioref">2024</a>)</span>), however respondents were classified as either Adults (respondents under 65 years of age) or Seniors (respondents 65 years of age or older). Respondents were located in the United States and provided data through interviews, physical examinations, and laboratory tests to the National Center for Health Statistics (NCHS) (part of the Centers for Disease Control and Prevention (CDC)).</p>
+<p>The dataset has 10 variables and 2278 rows, with each row representing a respondent. The variables are:</p>
+<ol type="1">
+<li><p>SEQN - The respondent ID aka sequence number</p></li>
+<li><p>age_group - The respondent’s age group (adult or senior)</p></li>
+<li><p>RIDAGEYR - The respondent’s age in years</p></li>
+<li><p>RIAGENDR - The respondent’s gender (1 represents Male, 2 represents Female)</p></li>
+<li><p>PAQ605 - Whether the respondent engages in weekly moderate or vigorous physical activity (1 means they do, 2 means they don’t)</p></li>
+<li><p>BMXBMI - The respondent’s body mass index</p></li>
+<li><p>LBXGLU - The respondent’s blood glucose after fasting</p></li>
+<li><p>DIQ010 - Whether the respondent is diabetic (1 is yes, 2 is no)</p></li>
+<li><p>LBXGLT - A measure of the respondent’s oral health</p></li>
+<li><p>LBXIN - The respondent’s blood insulin levels</p></li>
+</ol>
+<p>According to the dataset description, there are no missing values, though EDA found some unexpected values for physical activity and diabetic. Since no explanation was provided for these codes, we omitted these respondents from our analysis.</p>
+<p>The following software packages were used in this project: <span class="citation" data-cites="Chorev_Deepchecks_A_Library_2022">Chorev et al. (<a href="#ref-Chorev_Deepchecks_A_Library_2022" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="2020NumPy-Array">Harris et al. (<a href="#ref-2020NumPy-Array" role="doc-biblioref">2020</a>)</span>, <span class="citation" data-cites="niels_bantilan-proc-scipy-2020">Bantilan (<a href="#ref-niels_bantilan-proc-scipy-2020" role="doc-biblioref">2020</a>)</span>, <span class="citation" data-cites="Pedregosa_Scikit-learn_Machine_Learning_2011">Pedregosa et al. (<a href="#ref-Pedregosa_Scikit-learn_Machine_Learning_2011" role="doc-biblioref">2011</a>)</span>, <span class="citation" data-cites="The_pandas_development_team_pandas-dev_pandas_Pandas">The pandas development team (<a href="#ref-The_pandas_development_team_pandas-dev_pandas_Pandas" role="doc-biblioref">n.d.</a>)</span>, <span class="citation" data-cites="VanderPlas2018">VanderPlas et al. (<a href="#ref-VanderPlas2018" role="doc-biblioref">2018</a>)</span>, <span class="citation" data-cites="python">Van Rossum and Drake (<a href="#ref-python" role="doc-biblioref">2024</a>)</span>.</p>
+</section>
+<section id="methods-results" class="level2">
+<h2 class="anchored" data-anchor-id="methods-results">Methods &amp; Results</h2>
+<section id="description-of-methods" class="level3">
+<h3 class="anchored" data-anchor-id="description-of-methods">Description of methods</h3>
+<p>We began by loading and cleaning the data. This included renaming columns to improve clarity and ensure they were easily understandable. We noticed some unexplained values in the physical activity and diabetic variables that were not documented in the dataset description. To maintain data integrity, we decided to remove these observations as they might introduce noise or bias into the analysis.</p>
+<p>Next, we verified the claim in the dataset documentation stating there were no missing values. After confirming this, we proceeded to split the data into training and test sets, ensuring that this split was done carefully to avoid data leakage. To prevent overfitting and ensure that our results generalized well, we conducted exploratory data analysis (EDA) on the training set. This involved reviewing summary statistics for each variable to understand their distributions, relationships, and what preprocessing might be necessary.</p>
+<p>For preprocessing, we performed one-hot encoding on categorical variables and standardized the numeric variables to bring all features onto a similar scale. Given that the dataset had no missing values, there was no need for further imputation or handling of null entries.</p>
+<p>We then tested three models: a dummy classifier, logistic regression, and support vector classifier (SVC). These models were selected for their balance between simplicity, interpretability, and suitability for our task. Logistic regression, in particular, was chosen because of its high interpretability, which is crucial in healthcare applications where understanding model decisions is important. Also, looking at the EDA, we realised class imbalance in data set hence giving the dummy module highest score since it typically predicts the majority class most of the time. Instead of focusing solely on accuracy, which is often misleading in imbalanced datasets, we evaluate model performance using metrics such as precision, recall, F1-score, and the area under the precision-recall curve (AUC-PR), which give more insight into the model’s ability to identify the minority class. After evaluating the performance of all three models, even though the dummy model had the highest score, looking at its limitations stated above, logistic regression was selected for our final analysis as it showed the best mean cross-validation accuracy.</p>
+<p>We used the logistic regression model to predict outcomes on the test dataset. To assess its performance, we visualized the model’s predictions and compared them against the actual outcomes.</p>
+<p>The superior performance of the dummy model highlights the impact of class imbalance on model evaluation. This serves as a reminder that accuracy alone is not always a sufficient metric for evaluating model performance, especially in the presence of imbalanced classes. Going forward, we could explore methods to better handle this imbalance and reassess model performance using more robust evaluation metric</p>
+</section>
+<section id="inspecting-errors" class="level3">
+<h3 class="anchored" data-anchor-id="inspecting-errors">Inspecting errors</h3>
+<p>The dataset source stated that “gender”, “physical_activity”, and “diabetic” are binary features. However, “physical_activity”, “diabetic” contained three unique values instead of two. According to the dataset’s documentation, ‘physical_activity’ should only have 1 or 2 as values so rows containing 7 should be omitted. Similarly, ‘diabetic’ should only have 1 or 2 as values so rows containing 3 should be omitted.</p>
+<p>As a result, we removed 59 observations from the dataset during validation (1 case where physical activity was “7” and the remaining cases where diabetic was set to “3”).</p>
+</section>
+<section id="renaming-columns-and-glancing-at-their-values" class="level3">
+<h3 class="anchored" data-anchor-id="renaming-columns-and-glancing-at-their-values">Renaming columns and glancing at their values</h3>
+<p>We first renamed the columns of the data set to be more meaningful and easy to understand. Below is a short description of each column in the data set.</p>
+<ul>
+<li>RIDAGEYR: Respondent’s Age</li>
+<li>RIAGENDR: Respondent’s Gender (1 is Male / 2 is Female)</li>
+<li>PAQ605: Does the respondent engage in weekly moderate or vigorous-intensity physical activity (1 is yes / 2 is no)</li>
+<li>BMXBMI: Respondent’s Body Mass Index</li>
+<li>LBXGLU: Respondent’s Blood Glucose after fasting</li>
+<li>DIQ010: If the Respondent is diabetic (1 is yes / 2 is no)</li>
+<li>LBXGLT: Respondent’s Oral</li>
+<li>LBXIN: Respondent’s Blood Insulin Levels</li>
+</ul>
+</section>
+<section id="splitting-the-data-set" class="level3">
+<h3 class="anchored" data-anchor-id="splitting-the-data-set">Splitting the data set</h3>
+<p>Prior to conducting EDA, we split the data set to avoid looking at the test data and influence the training of our model. The training data was 80% of the original dataset, and the test data was 20%.</p>
+</section>
+<section id="conducting-eda-on-the-training-set" class="level3">
+<h3 class="anchored" data-anchor-id="conducting-eda-on-the-training-set">Conducting EDA on the training set</h3>
+<div class="cell" data-execution_count="3">
+<div id="tbl-summary-stats" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Summary Statistics
+</figcaption>
+<div aria-describedby="tbl-summary-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="3">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 20%">
+<col style="width: 8%">
+<col style="width: 16%">
+<col style="width: 11%">
+<col style="width: 8%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">gender</th>
+<th style="text-align: right;">physical_activity</th>
+<th style="text-align: right;">bmi</th>
+<th style="text-align: right;">blood_glucose</th>
+<th style="text-align: right;">diabetic</th>
+<th style="text-align: right;">oral</th>
+<th style="text-align: right;">blood_insulin</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">count</td>
+<td style="text-align: right;">1775</td>
+<td style="text-align: right;">1775</td>
+<td style="text-align: right;">1775</td>
+<td style="text-align: right;">1775</td>
+<td style="text-align: right;">1775</td>
+<td style="text-align: right;">1775</td>
+<td style="text-align: right;">1775</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mean</td>
+<td style="text-align: right;">1.51</td>
+<td style="text-align: right;">1.82</td>
+<td style="text-align: right;">27.78</td>
+<td style="text-align: right;">99.11</td>
+<td style="text-align: right;">1.99</td>
+<td style="text-align: right;">113.89</td>
+<td style="text-align: right;">11.66</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">std</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">7.15</td>
+<td style="text-align: right;">17.08</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">45.79</td>
+<td style="text-align: right;">9.54</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">min</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">14.5</td>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">1.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">25%</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">22.7</td>
+<td style="text-align: right;">91</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">87</td>
+<td style="text-align: right;">5.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">50%</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">26.7</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">104</td>
+<td style="text-align: right;">8.89</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">75%</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">31.1</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">14.26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">max</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">70.1</td>
+<td style="text-align: right;">405</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">604</td>
+<td style="text-align: right;">102.29</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The training data has 1775 observations. Since gender, physical_activity, and diabetic features were categorical, only the mean and standard deviation from the table above were relevant for those columns. Body mass index values below 18 are considered underweight, and values over 40 are considered severely obese. We observed that the middle 50% of values fall between 22.7 &amp; 31.1, though the max was 70.1, which is concerningly high. Blood glucose, oral, and blood insulin have their own ranges, so it was necessary to standardize these variables before fitting our model.</p>
+</section>
+<section id="visualization-for-eda" class="level3">
+<h3 class="anchored" data-anchor-id="visualization-for-eda">Visualization for EDA</h3>
+<p>The distributions in <a href="#fig-feat-distributions" class="quarto-xref">Figure&nbsp;1</a> below show class imbalance, with very few seniors relative to adults in our dataset. Across numeric variables, mode values for seniors were less pronounced than they were for adults, though ranges seemed similar. Seniors seemed to have higher oral values and lower blood insulin values than adults.</p>
+<div id="fig-feat-distributions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-feat-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../results/figures/eda_histogram.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-feat-distributions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Feature Distributions by Age Group (groups are not stacked)
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="preprocessing-features" class="level3">
+<h3 class="anchored" data-anchor-id="preprocessing-features">Preprocessing features</h3>
+<p>We one-hot encoded categorical features (gender, physical_activity, and diabetic), and standardized the scale for numeric features (bmi, blood_glucose, oral, and blood_insulin). Because no features had missing values, we did not do any imputation.</p>
+</section>
+<section id="comparing-classification-models-on-training-data" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-classification-models-on-training-data">Comparing classification models on training data</h3>
+<p>We compared a dummy classifier, logistic regression, and SVC model by mean cross validation score. The cross validation scores for each are below.</p>
+<div class="cell" data-execution_count="4">
+<div id="tbl-cv-dummy" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cv-dummy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Mean cross validation scores
+</figcaption>
+<div aria-describedby="tbl-cv-dummy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;"></th>
+<th style="text-align: left;">Unnamed: 0</th>
+<th style="text-align: right;">test_score</th>
+<th style="text-align: right;">train_score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">Dummy</td>
+<td style="text-align: right;">0.847887</td>
+<td style="text-align: right;">0.847887</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Logistic</td>
+<td style="text-align: right;">0.696338</td>
+<td style="text-align: right;">0.706056</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">SVC</td>
+<td style="text-align: right;">0.676056</td>
+<td style="text-align: right;">0.703521</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="testing-best-model-on-test-data" class="level3">
+<h3 class="anchored" data-anchor-id="testing-best-model-on-test-data">Testing Best Model on Test Data</h3>
+<p>Since logistic regression had the best mean cross validation score, we selected it as our final model.</p>
+<p>The model’s accuracy on test data was 0.725.</p>
+</section>
+<section id="visualizing-model-performance" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-model-performance">Visualizing model performance</h3>
+<div id="fig-confusion-matrix" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-confusion-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../results/figures/Confusion_matrix.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-confusion-matrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Confusion matrix of the best model on test data
+</figcaption>
+</figure>
+</div>
+<p>The confusion matrix (<a href="#fig-confusion-matrix" class="quarto-xref">Figure&nbsp;2</a>) showed that while the model score is 0.725, it did very poorly at recall and quite poorly at precision.</p>
+<div id="fig-roc" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-roc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../results/figures/ROC.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-roc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: ROC curve of the best model on test data
+</figcaption>
+</figure>
+</div>
+<p>This performance was reflected in the ROC curve above (<a href="#fig-roc" class="quarto-xref">Figure&nbsp;3</a>). While it could differentiate the positive class “Senior” from the negative class to some extent, the model struggled to achieve both high true positive rates and low false positive rates.</p>
+</section>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>The question we sought to answer was “Can information about the health and nutritional status of Americans be used to predict whether they are adults or seniors?” Our results indicated that yes, age group can be predicted with moderate accuracy (roughly 73.0%) based on health and nutritional inputs, however there is considerable room for model improvement.</p>
+<p>During the data cleaning process, our treatment of outliers in categorical features may have come across heavy handed. If given more time, we could have looked deeper into the outliers that we found in categorical features, “physical_activity” and “diabetic” instead of dropping them immediately. Admittedly, our EDA was limited to summary statistics and distributions. We could have looked into the pairwise correlations between features to uncover relationships and collinearity. In doing so, we may have been able to eliminate features that exhibited collinearity or low feature importance overall. Also, we would have been more equipped to engineer additional meaningful features.</p>
+<p>We were initially surprised how high accuracy was without any hyperparameter tuning, and this turned out to be because the classes were imbalanced, meaning accuracy as a metric oversells the model’s ability to distinguish the two groups. Since adults were the majority class, classifying most respondents as adults gave a high accuracy, but was not useful for identifying seniors. In future research, we should consider hyperparameter tuning <code>C</code> in our Logistic Regression model as well as implementing class_weight = ‘balanced’ to account for the class imbalance. We would also use a metric like f1 score to improve the model’s balance between recall and precision.</p>
+<p>One of the big trades offs that we made in our model selection was interpretability over performance. While easy to understand, logistic regression is limited as it assumes a linear relationship between the independent variables and the log-odds of the target. We need consider the possibility that health and nutritional factors might interact in complex, non-linear ways that logistic regression cannot capture and maybe consider using a random forest classifier in future analysis.</p>
+<p>Data science is an iterative process, and our current analysis represents a step forward rather than a final answer. In the future, we should revisit the analysis to determine which health and nutritional factors have the strongest predictive ability for age group. Identifying the most influential predictors can provide valuable insights into the key differences in health and nutritional status between adults and seniors. This deeper understanding could serve as a foundation for designing targeted public health interventions aimed at improving health outcomes.</p>
+</section>
+<section id="references" class="level2 unnumbered">
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-niels_bantilan-proc-scipy-2020" class="csl-entry" role="listitem">
+Bantilan, Niels. 2020. <span>“Pandera: <span>S</span>tatistical <span>D</span>ata <span>V</span>alidation of <span>P</span>andas <span>D</span>ataframes.”</span> In <em><span>P</span>roceedings of the 19th <span>P</span>ython in <span>S</span>cience <span>C</span>onference</em>, edited by Meghann Agarwal, Chris Calloway, Dillon Niederhut, and David Shupe, 116–24. <a href="https://doi.org/ 10.25080/Majora-342d178e-010 ">https://doi.org/ 10.25080/Majora-342d178e-010 </a>.
+</div>
+<div id="ref-Chorev_Deepchecks_A_Library_2022" class="csl-entry" role="listitem">
+Chorev, Shir, Philip Tannor, Dan Ben Israel, Noam Bressler, Itay Gabbay, Nir Hutnik, Jonatan Liberman, Matan Perlmutter, Yurii Romanyshyn, and Lior Rokach. 2022. <span>“<span class="nocase">Deepchecks: A Library for Testing and Validating Machine Learning Models and Data</span>.”</span> <em>Journal of Machine Learning Research</em> 23: 1–6. <a href="http://jmlr.org/papers/v23/22-0281.html">http://jmlr.org/papers/v23/22-0281.html</a>.
+</div>
+<div id="ref-DinhMiertschin2016" class="csl-entry" role="listitem">
+Dinh, Andrew, and Susan Miertschin. 2016. <span>“A Data-Driven Approach to Predicting Diabetes and Cardiovascular Disease with Machine Learning.”</span> Semantic Scholar. <a href="https://www.semanticscholar.org/paper/A-data-driven-approach-to-predicting-diabetes-and-Dinh-Miertschin/01af1548ff1f3661d8bb813e8c35ee219a79ca9f">https://www.semanticscholar.org/paper/A-data-driven-approach-to-predicting-diabetes-and-Dinh-Miertschin/01af1548ff1f3661d8bb813e8c35ee219a79ca9f</a>.
+</div>
+<div id="ref-2020NumPy-Array" class="csl-entry" role="listitem">
+Harris, Charles R., K. Jarrod Millman, Stéfan J van der Walt, Ralf Gommers, Pauli Virtanen, David Cournapeau, Eric Wieser, et al. 2020. <span>“Array Programming with <span>NumPy</span>.”</span> <em>Nature</em> 585: 357–62. <a href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>.
+</div>
+<div id="ref-HealthyAging2022" class="csl-entry" role="listitem">
+Healthy Aging Center. 2022. <span>“Aging Around the World.”</span> Colorado State University. <a href="https://www.research.colostate.edu/healthyagingcenter/2022/01/28/aging-around-the-world/">https://www.research.colostate.edu/healthyagingcenter/2022/01/28/aging-around-the-world/</a>.
+</div>
+<div id="ref-MukhtarAzwari2021" class="csl-entry" role="listitem">
+Mukhtar, Hamid, and Sana Al Azwari. 2021. <span>“Investigating Non-Laboratory Variables to Predict Diabetic and Prediabetic Patients from Electronic Medical Records Using Machine Learning.”</span>
+</div>
+<div id="ref-NHANES2019" class="csl-entry" role="listitem">
+NHANES. 2019. <span>“National Health and Nutrition Health Survey 2013-2014 (NHANES) Age Prediction Subset.”</span> UCI Machine Learning Repository.
+</div>
+<div id="ref-Papazafiropoulou2024" class="csl-entry" role="listitem">
+Papazafiropoulou, Athanasia K. 2024. <span>“Diabetes Management in the Era of Artificial Intelligence.”</span> <em>Archives of Medical Sciences. Atherosclerotic Diseases</em> 9: e122–28.
+</div>
+<div id="ref-Pedregosa_Scikit-learn_Machine_Learning_2011" class="csl-entry" role="listitem">
+Pedregosa, Fabian, Gaël Varoquaux, Alexandre Gramfort, Vincent Michel, Bertrand Thirion, Olivier Grisel, Mathieu Blondel, et al. 2011. <span>“<span class="nocase">Scikit-learn: Machine Learning in Python</span>.”</span> <em>Journal of Machine Learning Research</em> 12: 2825–30. <a href="https://jmlr.csail.mit.edu/papers/v12/pedregosa11a.html">https://jmlr.csail.mit.edu/papers/v12/pedregosa11a.html</a>.
+</div>
+<div id="ref-The_pandas_development_team_pandas-dev_pandas_Pandas" class="csl-entry" role="listitem">
+The pandas development team. n.d. <span>“<span class="nocase">pandas-dev/pandas: Pandas</span>.”</span> <a href="https://doi.org/10.5281/zenodo.3509134">https://doi.org/10.5281/zenodo.3509134</a>.
+</div>
+<div id="ref-python" class="csl-entry" role="listitem">
+Van Rossum, Guido, and Fred L. Drake. 2024. <span>“Python 3 Programming Language.”</span> <a href="https://www.python.org">https://www.python.org</a>.
+</div>
+<div id="ref-VanderPlas2018" class="csl-entry" role="listitem">
+VanderPlas, Jacob, Brian Granger, Jeffrey Heer, Dominik Moritz, Kanit Wongsuphasawat, Arvind Satyanarayan, Eitan Lees, Ilia Timofeev, Ben Welsh, and Scott Sievert. 2018. <span>“Altair: Interactive Statistical Visualizations for Python.”</span> <em>Journal of Open Source Software</em> 3 (32): 1057. <a href="https://doi.org/10.21105/joss.01057">https://doi.org/10.21105/joss.01057</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
