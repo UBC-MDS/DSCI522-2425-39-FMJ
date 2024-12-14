@@ -14,4 +14,6 @@ RUN mamba update --quiet --file /tmp/conda-linux-64.lock \
     && fix-permissions "/home/${NB_USER}"
 
 RUN pip install deepchecks==0.18.1
+
+
     
