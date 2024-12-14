@@ -1,6 +1,7 @@
 ---
 title: Predicting age group from health and nutritional status of Americans
 author: Forgive Agbesi, Jason Lee and Michael Hewlett
+date: 2024-12-13
 format:
     pdf:
         toc: true
