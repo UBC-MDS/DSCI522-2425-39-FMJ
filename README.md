@@ -7,13 +7,10 @@
 - Michael Hewlett
 
 ## Summary:
-In this analysis we explored the use of several classification models to predict whether a respondent is an adult or senior (essentially below or above age 65) based on their health and nutritional data. Our most promising model used Support Vector Classification (SVC). While it appeared promising, much of the model’s accuracy was achieved by classifying most respondents as adults, since this was the majority class. Precision and recall for predicting the senior class was quite low. This suggests that the model has considerable room for improvement, which could be achieved through optimizing the hyperparameters and selecting models based on precision, recall, or f1 scores, rather than general accuracy. With the goal of correctly classifying each group, false positive and false negative errors were both equally important for our analysis, and applying class weighting is worth exploring in future research. Once the model performs better on those metrics, it would be worth exploring which health and nutritional features are most predictive of age, which could provide suggestions for strategic public health programs.
+In this analysis we explored the use of several classification models to predict whether a respondent is an adult or senior (essentially below or above age 65) based on their health and nutritional data. Our most promising model used Logistic Regression. While it appeared promising, much of the model’s accuracy was achieved by classifying most respondents as adults, since this was the majority class. Precision and recall for predicting the senior class was quite low. This suggests that the model has considerable room for improvement, which could be achieved through optimizing the hyperparameters and selecting models based on precision, recall, or f1 scores, rather than general accuracy. With the goal of correctly classifying each group, false positive and false negative errors were both equally important for our analysis, and applying class weighting is worth exploring in future research. Once the model performs better on those metrics, it would be worth exploring which health and nutritional features are most predictive of age, which could provide suggestions for strategic public health programs.
 
 ## Report
 The final report can be found [here](https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/blob/main/reports/age_group_classification.pdf)
-
-## Dependencies
-- [Docker](https://www.docker.com)
 
 ## Usage
 
@@ -64,6 +61,8 @@ quarto render reports/age_group_classification.qmd --to pdf
 ### Developer dependencies
 - `conda` (version 23.9.0 or higher)
 - `conda-lock` (version 2.5.7 or higher)
+- [Docker](https://www.docker.com)
+- For a full list of dependencies, please refer to [environment.yml](https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/blob/main/environments/environment.yml)
 
 ### Adding a new dependency
 1. Add the dependency to the `environment.yml` file on a new branch.
