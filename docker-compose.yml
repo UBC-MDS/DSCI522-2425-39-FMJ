@@ -1,7 +1,7 @@
 services:
   # run jupyter notebook inside jupyter 
   jupyter-notebook:
-    image:  forsythiaolive/dsci522-2425-39-fmj
+    image:  forsythiaolive/dsci522-2425-39-fmj:d067ab8
     ports:
       - "8888:8888"
     volumes:
