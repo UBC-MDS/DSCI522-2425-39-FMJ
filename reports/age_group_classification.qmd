@@ -1,6 +1,7 @@
 ---
 title: Predicting age group from health and nutritional status of Americans
 author: Forgive Agbesi, Jason Lee and Michael Hewlett
+date: 2024-12-13
 format:
     pdf:
         toc: true
@@ -23,15 +24,15 @@ warnings.filterwarnings("ignore", category=UserWarning, module="sklearn.base")
 
 ## Summary
 
-In this analysis we explored the use of several classification models to predict whether a respondent is an adult or senior (essentially below or above age 65) based on their health and nutritional data. Our most promising model used Support Vector Classification (SVC). While it appeared promising, much of the model's accuracy was achieved by classifying most respondents as adults, since this was the majority class. Precision and recall for predicting the senior class was quite low. This suggests that the model has considerable room for improvement, which could be achieved through optimizing the hyperparameters and selecting models based on precision, recall, or f1 scores, rather than general accuracy. With the goal of correctly classifying each group, false positive and false negative errors were both equally important for our analysis, and applying class weighting is worth exploring in future research. Once the model performs better on those metrics, it would be worth exploring which health and nutritional features are most predictive of age, which could provide suggestions for strategic public health programs.
+In this analysis we explored the use of several classification models to predict whether a respondent is an adult or senior (essentially below or above age 65) based on their health and nutritional data. Our most promising model used Logistic Regression. While it appeared promising, much of the model's accuracy was achieved by classifying most respondents as adults, since this was the majority class. Precision and recall for predicting the senior class was quite low. This suggests that the model has considerable room for improvement, which could be achieved through optimizing the hyperparameters and selecting models based on precision, recall, or f1 scores, rather than general accuracy. With the goal of correctly classifying each group, false positive and false negative errors were both equally important for our analysis, and applying class weighting is worth exploring in future research. Once the model performs better on those metrics, it would be worth exploring which health and nutritional features are most predictive of age, which could provide suggestions for strategic public health programs.
 
 ## Introduction
 
-While taking care of elders is a core value of many cultures, this is not a hallmark of many western societies, including the Unites States (@HealthyAging2022). Is it possible that this is reflected in different health measures? Put another way, could we use health measures to predict whether an American is a senior or not?
+While taking care of elders is a core value of many cultures, this is not a hallmark of many western societies, including the United States (@HealthyAging2022). Is it possible that this is reflected in different health measures? Put another way, could we use health measures to predict whether an American is a senior or not?
 
 Formally, the question this project seeks to answer is: Can information about the health and nutritional status of Americans be used to predict whether they are adults or seniors?
 
-The dataset used to answer this question is the National Health and Nutrition Health Survey 2013-2014 (NHANES) Age Prediction Subset (@NHANES2019). It was originally prepared for a research paper on predicting diabetes and cardiovascular disease in patients (@DinhMiertschin2016 and @MukhtarAzwari2021). The dataset's stated purpose was to assess the health and nutritional status of adults and children in the United States (@Papazafiropoulou2024), however respondents were classified as either Adults (respondents under 65 years of age) or Seniors (respondents 65 years of age or older). Respondents were located in the United States and provided data through interviews, physical examinations, and laboratory tests to the National Center for Health Statistics (NCHS) (part of the Centers for Disease Control and Prevention (CDC)).
+The dataset used to answer this question is the National Health and Nutrition Survey 2013-2014 (NHANES) Age Prediction Subset (@NHANES2019). It was originally prepared for a research paper on predicting diabetes and cardiovascular disease in patients (@DinhMiertschin2016 and @MukhtarAzwari2021). The dataset's stated purpose was to assess the health and nutritional status of adults and children in the United States (@Papazafiropoulou2024), however respondents were classified as either Adults (respondents under 65 years of age) or Seniors (respondents 65 years of age or older). Respondents were located in the United States and provided data through interviews, physical examinations, and laboratory tests to the National Center for Health Statistics (NCHS) (part of the Centers for Disease Control and Prevention (CDC)).
 
 The dataset has 10 variables and 2278 rows, with each row representing a respondent. The variables are:
 
@@ -55,14 +56,16 @@ The dataset has 10 variables and 2278 rows, with each row representing a respond
 
 10. LBXIN - The respondent's blood insulin levels
 
-According to the dataset description, there are no missing values, though EDA found some unexpected values for physical activity and diabetic. Since no explanation was provided for these codes, we omitted these respondent's from our analysis.
+According to the dataset description, there are no missing values, though EDA found some unexpected values for physical activity and diabetic. Since no explanation was provided for these codes, we omitted these respondents from our analysis.
+
+The following software packages were used in this project: @Chorev_Deepchecks_A_Library_2022, @2020NumPy-Array, @niels_bantilan-proc-scipy-2020, @Pedregosa_Scikit-learn_Machine_Learning_2011, @The_pandas_development_team_pandas-dev_pandas_Pandas, @VanderPlas2018, @python.
 
 ## Methods & Results
 
 ### Description of methods
 We loaded and cleaned the data, first renaming columns for clarity. We then found values for physical activity and diabetic variables that were not explained in the dataset's documentation and decided to remove observations with those values. Next we confirmed the that the dataset's description of no missing values was accurate, then split the data into training and test, and conducted EDA on the training set - including examining summary statistics of each variable and plotting their distributions.
 
-For our analysis, we first transformed categorical variables with one hot encoding, and standardized the scales of numeric variables. Because there were no missing values, it was not necessary to do transformations for this. We then fit 3 models (a dummy classifier, a logistic regression, and SVC) to the training data, and selected SVC for our final analysis because it had the best mean cross-validation accuracy. Finally, we used our SVC model to predict the test data and visualized how the model performed on this data.
+For our analysis, we first transformed categorical variables with one hot encoding, and standardized the scales of numeric variables. Because there were no missing values, it was not necessary to do transformations for this. We then fit 3 models (a dummy classifier, a logistic regression, and SVC) to the training data, and selected logistic regression for our final analysis because it had the best mean cross-validation accuracy. Finally, we used our logistic regression model to predict the test data and visualized how the model performed on this data.
 
 ### Inspecting errors
 The dataset source stated that "gender", "physical_activity", and "diabetic" are binary features. However, "physical_activity", "diabetic" contained three unique values instead of two. According to the dataset's documentation, 'physical_activity' should only have 1 or 2 as values so rows containing 7 should be omitted. Similarly, 'diabetic' should only have 1 or 2 as values so rows containing 3 should be omitted.
@@ -158,10 +161,12 @@ This performance was reflected in the ROC curve above (@fig-roc). While it could
 
 The question we sought to answer was "Can information about the health and nutritional status of Americans be used to predict whether they are adults or seniors?" Our results indicated that yes, age group can be predicted with moderate accuracy (roughly `{python} test_score_rough`%) based on health and nutritional inputs, however there is considerable room for model improvement. 
 
-We were initially surprised how high accuracy was without any hyperparameter tuning, and this turned out to be because the classes were imbalanced, meaning accuracy as a metric oversells the model's ability to distinguish the two groups. Since adults were the majority class, classifying most respondents as adults gave a high accuracy, but was not useful for identifying seniors. 
+During the data cleaning process, our treatment of outliers in categorical features may have come across heavy handed. If given more time, we could have looked deeper into the outliers that we found in categorical features, “physical_activity” and “diabetic” instead of dropping them immediately. Admittedly, our EDA was limited to summary statistics and distributions. We could have looked into the pairwise correlations between features to uncover relationships and collinearity. In doing so, we may have been able to eliminate features that exhibited collinearity or low feature importance overall. Also, we would have been more equipped to engineer additional meaningful features.
 
-In future research, we would use a metric like f1 to account for the class imbalance and conduct hyperparameter optimization to improve the model's recall and precision. 
+We were initially surprised how high accuracy was without any hyperparameter tuning, and this turned out to be because the classes were imbalanced, meaning accuracy as a metric oversells the model’s ability to distinguish the two groups. Since adults were the majority class, classifying most respondents as adults gave a high accuracy, but was not useful for identifying seniors. In future research, we should consider hyperparameter tuning `C` in our Logistic Regression model as well as implementing class_weight = ‘balanced’ to account for the class imbalance. We would also use a metric like f1 score to improve the model’s balance between recall and precision.
 
-One question for future research is to identify which health and nutritional factors have the strongest predictive ability for age group. Answering that could indicate which public health interventions have the most potential to balance health outcomes across age groups in America.
+One of the big trades offs that we made in our model selection was interpretability over performance. While easy to understand, logistic regression is limited as it assumes a linear relationship between the independent variables and the log-odds of the target. We need consider the possibility that health and nutritional factors might interact in complex, non-linear ways that logistic regression cannot capture and maybe consider using a random forest classifier in future analysis.
+
+Data science is an iterative process, and our current analysis represents a step forward rather than a final answer. In the future, we should revisit the analysis to determine which health and nutritional factors have the strongest predictive ability for age group. Identifying the most influential predictors can provide valuable insights into the key differences in health and nutritional status between adults and seniors. This deeper understanding could serve as a foundation for designing targeted public health interventions aimed at improving health outcomes.
 
 ## References

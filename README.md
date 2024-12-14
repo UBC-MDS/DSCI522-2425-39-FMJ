@@ -7,13 +7,10 @@
 - Michael Hewlett
 
 ## Summary:
-In this analysis we explored the use of several classification models to predict whether a respondent is an adult or senior (essentially below or above age 65) based on their health and nutritional data. Our most promising model used Support Vector Classification (SVC). While it appeared promising, much of the model’s accuracy was achieved by classifying most respondents as adults, since this was the majority class. Precision and recall for predicting the senior class was quite low. This suggests that the model has considerable room for improvement, which could be achieved through optimizing the hyperparameters and selecting models based on precision, recall, or f1 scores, rather than general accuracy. With the goal of correctly classifying each group, false positive and false negative errors were both equally important for our analysis, and applying class weighting is worth exploring in future research. Once the model performs better on those metrics, it would be worth exploring which health and nutritional features are most predictive of age, which could provide suggestions for strategic public health programs.
+In this analysis we explored the use of several classification models to predict whether a respondent is an adult or senior (essentially below or above age 65) based on their health and nutritional data. Our most promising model used Logistic Regression. While it appeared promising, much of the model’s accuracy was achieved by classifying most respondents as adults, since this was the majority class. Precision and recall for predicting the senior class was quite low. This suggests that the model has considerable room for improvement, which could be achieved through optimizing the hyperparameters and selecting models based on precision, recall, or f1 scores, rather than general accuracy. With the goal of correctly classifying each group, false positive and false negative errors were both equally important for our analysis, and applying class weighting is worth exploring in future research. Once the model performs better on those metrics, it would be worth exploring which health and nutritional features are most predictive of age, which could provide suggestions for strategic public health programs.
 
 ## Report
 The final report can be found [here](https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/blob/main/reports/age_group_classification.pdf)
-
-## Dependencies
-- [Docker](https://www.docker.com)
 
 ## Usage
 
@@ -49,6 +46,12 @@ make clean-all
 make all
 ```
 
+5. To render the final report, enter the following command in the terminal in the project root:
+
+```bash
+quarto render reports/age_group_classification.qmd --to pdf
+```
+
 ### Clean up
 
 1. To shut down the container and clean up the resources, type `Ctrl` + `C` in the terminal where you launched the container, and then type `docker compose rm`
@@ -58,6 +61,8 @@ make all
 ### Developer dependencies
 - `conda` (version 23.9.0 or higher)
 - `conda-lock` (version 2.5.7 or higher)
+- [Docker](https://www.docker.com)
+- For a full list of dependencies, please refer to [environment.yml](https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/blob/main/environments/environment.yml)
 
 ### Adding a new dependency
 1. Add the dependency to the `environment.yml` file on a new branch.
@@ -76,10 +81,24 @@ make all
 This project is licensed under a MIT License. See the license file for more information.
 
 ## References
-Dua, Dheeru, and Casey Graff. 2017. “UCI Machine Learning Repository.” University of California, Irvine, School of Information; Computer Sciences. http://archive.ics.uci.edu/ml.
+Bantilan, N. (2020). Pandera: Statistical Data Validation of Pandas Dataframes. In M. Agarwal, C. Calloway, D. Niederhut, & D. Shupe (Eds.), Proceedings of the 19th Python in Science Conference (pp. 116-124). https://doi.org/10.25080/Majora-342d178e-010
 
-NA, N. (2019). National Health and Nutrition Health Survey 2013-2014 (NHANES) Age Prediction Subset [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BS66.
+Chorev, S., Tannor, P., Ben Israel, D., Bressler, N., Gabbay, I., Hutnik, N., Liberman, J., Perlmutter, M., Romanyshyn, Y., & Rokach, L. (2022). Deepchecks: A Library for Testing and Validating Machine Learning Models and Data. Journal of Machine Learning Research, 23, 1–6. http://jmlr.org/papers/v23/22-0281.html
 
-Mukhtar, Hamid and Sana Al Azwari. “Investigating Non-Laboratory Variables to Predict Diabetic and Prediabetic Patients from Electronic Medical Records Using Machine Learning.” (2021).
+Dua, D., & Graff, C. (2017). UCI Machine Learning Repository. University of California, Irvine, School of Information and Computer Sciences. Retrieved from http://archive.ics.uci.edu/ml
 
-Papazafiropoulou, Athanasia K.. “Diabetes management in the era of artificial intelligence.” Archives of Medical Sciences. Atherosclerotic Diseases 9 (2024): e122 - e128.
+Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., Wieser, E., Taylor, J., Berg, S., Smith, N. J., Kern, R., Picus, M., Hoyer, S., van Kerkwijk, M. H., Brett, M., Haldane, A., Fernández del Río, J., Wiebe, M., Peterson, P., ... Oliphant, T. E. (2020). Array programming with NumPy. Nature, 585, 357-362. https://doi.org/10.1038/s41586-020-2649-2
+
+NA, N. (2019). National Health and Nutrition Health Survey 2013-2014 (NHANES) Age Prediction Subset [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BS66
+
+Mukhtar, H., & Al Azwari, S. (2021). Investigating non-laboratory variables to predict diabetic and prediabetic patients from electronic medical records using machine learning.
+
+Papazafiropoulou, A. K. (2024). Diabetes management in the era of artificial intelligence. Archives of Medical Sciences: Atherosclerotic Diseases, 9, e122–e128.
+
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M., & Duchesnay, É. (2011). Scikit-learn: Machine Learning in Python. Journal of Machine Learning Research, 12, 2825–2830. https://jmlr.csail.mit.edu/papers/v12/pedregosa11a.html
+
+The pandas development team. pandas-dev/pandas: Pandas [Computer software]. https://doi.org/10.5281/zenodo.3509134
+
+VanderPlas, J., Granger, B., Heer, J., Moritz, D., Wongsuphasawat, K., Satyanarayan, A., Lees, E., Timofeev, I., Welsh, B., & Sievert, S. (2018). Altair: Interactive Statistical Visualizations for Python. Journal of Open Source Software, 3(32), 1057. https://doi.org/10.21105/joss.01057
+
+Van Rossum, G., & Drake, F. L. (2009). Python 3 Reference Manual. CreateSpace.

@@ -34,6 +34,10 @@ def main(raw_data_path, write_to):
     """
     original_df = pd.read_csv(raw_data_path)
 
+    # Data file format - Check that the dataframe has 2278 rows and 11 Columns
+    assert len(original_df) == 2278
+    assert len(original_df.columns) == 11
+
     # Validate data and handle errors
     schema = pa.DataFrameSchema(
         {
