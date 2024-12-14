@@ -34,3 +34,7 @@ File updated: download_data.py (lines 23 - 26)
 Fixed Issue: Added data validation that checks dataframe contains 2278 rows and 11 cols
 Commit URL: https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/commit/617289e992ed69140928c0425f5f6e3ba02493e9
 File updated: validate_data.py (lines 37-40)
+
+Fixed Issue: Fixed typos in report
+Commit URL: https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/commit/24c5ba35d16a69bc914d2800e4cc59d722fea2e6
+File updated: age_group_classification.qmd
