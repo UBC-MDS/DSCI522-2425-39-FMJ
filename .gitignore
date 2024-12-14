@@ -16,3 +16,4 @@ __pycache__/
 # Miscenallenous files
 .ipython
 .jupyter
+.bash_history
