@@ -20,9 +20,16 @@ def main(repo_id, write_to):
     """
     Uses the ucirepo package to download the raw data, store it in a dataframe, and save it in the /data directory
     """
-    nhanes = fetch_ucirepo(id=repo_id)
-    raw_data = nhanes.data.original
-    raw_data.to_csv(write_to)
+
+    # Data Validation: Make sure that the correct NHANES repo id (887) is being used.
+    assert repo_id == 887
+
+    try:
+        nhanes = fetch_ucirepo(id=repo_id)
+        raw_data = nhanes.data.original
+        raw_data.to_csv(write_to)
+    except Exception as e:
+        click.echo(f"Error:{e}", err=True)
 
 if __name__ == '__main__':
     main()
