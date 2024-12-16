@@ -74,7 +74,7 @@ Commit URL: https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/commit/617289e992ed69
 File updated: validate_data.py (lines 37-40)
 
 ## Fixed Issue: 
-Fixed typos in report
+Fixed typos and inconsistencies in report
 
 Commit URL: https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/commit/24c5ba35d16a69bc914d2800e4cc59d722fea2e6
 
@@ -130,9 +130,3 @@ Commit URL:
 
 File updated: age_group_classification.qmd [line ]
 
-## Fixed Issue: 
-Updated inconsistency in report.
-
-Commit URL: 
-
-File updated: age_group_classification.qmd [line ]
