@@ -99,7 +99,7 @@ div.csl-indent {
 
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>In this analysis we explored the use of several classification models to predict whether a respondent is an adult or senior (essentially below or above age 65) based on their health and nutritional data. Our most promising model used Logistic Regression. While it appeared promising, much of the model’s accuracy was achieved by classifying most respondents as adults, since this was the majority class. Precision and recall for predicting the senior class was quite low. This suggests that the model has considerable room for improvement, which could be achieved through optimizing the hyperparameters and selecting models based on precision, recall, or f1 scores, rather than general accuracy. With the goal of correctly classifying each group, false positive and false negative errors were both equally important for our analysis, and applying class weighting is worth exploring in future research. Once the model performs better on those metrics, it would be worth exploring which health and nutritional features are most predictive of age, which could provide suggestions for strategic public health programs.</p>
+<p>In this analysis we explored the use of several classification models to predict whether a respondent is an adult or senior (essentially below or above age 65) based on their health and nutritional data. Our most promising model used Logistic Regression. While it appeared promising, much of the model’s accuracy was achieved by classifying most respondents as adults, since this was the majority class. Also, applying class weighting was worth exploring to reduce the class imbalance. However, Precision and recall for predicting the senior class was quite low. This suggests that the model has considerable room for improvement, which could be achieved through optimizing the hyperparameters and selecting models based on precision, recall, or f1 scores, rather than general accuracy. With the goal of correctly classifying each group, false positive and false negative errors were both equally important for our analysis. Once the model performs better on those metrics, it would be worth exploring which health and nutritional features are most predictive of age, which could provide suggestions for strategic public health programs.</p>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
@@ -167,7 +167,7 @@ div.csl-indent {
 Table&nbsp;1: Summary Statistics
 </figcaption>
 <div aria-describedby="tbl-summary-stats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="13">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 6%">
@@ -309,7 +309,7 @@ Figure&nbsp;1: Feature Distributions by Age Group (groups are not stacked)
 Table&nbsp;2: Mean cross validation scores
 </figcaption>
 <div aria-describedby="tbl-cv-dummy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="14">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="10">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -350,6 +350,7 @@ Table&nbsp;2: Mean cross validation scores
 <h3 class="anchored" data-anchor-id="testing-best-model-on-test-data">Testing Best Model on Test Data</h3>
 <p>Since logistic regression had the best mean cross validation score, we selected it as our final model.</p>
 <p>The model’s accuracy on test data was 0.725.</p>
+<p>The model’s precision score was 0.34, recall score was 0.645 and f1 score was 0.445.</p>
 </section>
 <section id="visualizing-model-performance" class="level3">
 <h3 class="anchored" data-anchor-id="visualizing-model-performance">Visualizing model performance</h3>
@@ -363,7 +364,7 @@ Figure&nbsp;2: Confusion matrix of the best model on test data
 </figcaption>
 </figure>
 </div>
-<p>The confusion matrix (<a href="#fig-confusion-matrix" class="quarto-xref">Figure&nbsp;2</a>) showed that while the model score is 0.725, it did very poorly at recall and quite poorly at precision.</p>
+<p>The confusion matrix (<a href="#fig-confusion-matrix" class="quarto-xref">Figure&nbsp;2</a>) showed that while the model score is 0.725, it did very poorly at recall ( 0.645 ) and quite poorly at precision (0.34 ).</p>
 <div id="fig-roc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-roc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -374,7 +375,7 @@ Figure&nbsp;3: ROC curve of the best model on test data
 </figcaption>
 </figure>
 </div>
-<p>This performance was reflected in the ROC curve above (<a href="#fig-roc" class="quarto-xref">Figure&nbsp;3</a>). While it could differentiate the positive class “Senior” from the negative class to some extent, the model struggled to achieve both high true positive rates and low false positive rates.</p>
+<p>This performance was reflected in the ROC curve above (<a href="#fig-roc" class="quarto-xref">Figure&nbsp;3</a>). While it could differentiate the positive class “Senior” from the negative class to some extent, the model struggled to achieve both high true positive rates and low false positive rates. An AUC of 0.75 means that there is a 75% chance that a randomly chosen “Senior” will be ranked higher than a randomly chosen “Adult” by the model. In other words, the model is correctly distinguishing between “Senior” and “Adult” 75% of the time. With the AUC as 0.75, it means that 75% of the time, a randomly chosen “Senior” will have a higher predicted probability of being “Senior” than a randomly chosen “Adult”. This is a good indication that the model is better than random guessing, especially in distinguishing “Senior” from “Adult”.</p>
 </section>
 </section>
 <section id="discussion" class="level2">
