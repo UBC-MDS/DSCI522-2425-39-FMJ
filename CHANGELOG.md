@@ -112,21 +112,21 @@ File updated: age_group_classification.qmd [line 67 - 78]
 ## Fixed Issue: 
 Updated Readme with link to license
 
-Commit URL: 
+Commit URL: https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/commit/d520a128113ecd336d33466c7c40866191d34df8#diff-b335630551682c19a781afebcf4d07bf978fb1f8ac04c6bf87428ed5106870f5R81
 
-File updated: README.md [line ]
+File updated: README.md [line 81]
 
 ## Fixed Issue: 
 Update qmd with meaning of AUC in report
 
-Commit URL: 
+Commit URL: https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/commit/f660d1a650907defe28580d24f29f0ac0f4fe7cf#diff-81aaab09337f7c3bd1b2e568f342ddfeb80235a4cead070e1d5a686a2a5a2f9dR189
 
-File updated: age_group_classification.qmd [line ]
+File updated: age_group_classification.qmd [line 188 - 189]
 
 ## Fixed Issue: 
 Updated report with Exact recall and precision values
 
-Commit URL: 
+Commit URL: https://github.com/UBC-MDS/DSCI522-2425-39-FMJ/commit/e0677d6483748506accf80129c442eafb8d55f16#diff-81aaab09337f7c3bd1b2e568f342ddfeb80235a4cead070e1d5a686a2a5a2f9dR173
 
-File updated: age_group_classification.qmd [line ]
+File updated: age_group_classification.qmd [line 166 - 184]
 
