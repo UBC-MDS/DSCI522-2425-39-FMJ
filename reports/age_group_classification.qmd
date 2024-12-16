@@ -185,7 +185,8 @@ The confusion matrix (@fig-confusion-matrix) showed that while the model score i
 
 ![ROC curve of the best model on test data](../results/figures/ROC.png){#fig-roc}
 
-This performance was reflected in the ROC curve above (@fig-roc). While it could differentiate the positive class "Senior" from the negative class to some extent, the model struggled to achieve both high true positive rates and low false positive rates.
+This performance was reflected in the ROC curve above (@fig-roc). 
+While it could differentiate the positive class "Senior" from the negative class to some extent, the model struggled to achieve both high true positive rates and low false positive rates. An AUC of 0.75 means that there is a 75% chance that a randomly chosen "Senior" will be ranked higher than a randomly chosen "Adult" by the model. In other words, the model is correctly distinguishing between "Senior" and "Adult" 75% of the time. With the AUC as 0.75, it means that 75% of the time, a randomly chosen "Senior" will have a higher predicted probability of being "Senior" than a randomly chosen "Adult". This is a good indication that the model is better than random guessing, especially in distinguishing "Senior" from "Adult".
 
 ## Discussion
 
