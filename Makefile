@@ -80,6 +80,9 @@ results/figures/ROC.png : data/processed/X_test.csv data/processed/y_test.csv re
 reports/age_group_classification.pdf : reports/age_group_classification.qmd dats eda fit-model eval-model 
 	quarto render reports/age_group_classification.qmd
 
+publish: reports/age_group_classification.qmd dats eda fit-model eval-model 
+	quarto render reports/age_group_classification.qmd --to html
+
 clean-dats:
 	rm -f data/Raw/NHANES_age_prediction.csv \
 		data/processed/validated_data.csv \
@@ -99,9 +102,14 @@ clean-fit-model:
 clean-eval-model:
 	rm -f results/figures/Confusion_matrix.png \
 		results/figures/ROC.png
+clean-log:
+	rm -f logs/validation_errors.log
 
 clean-all: clean-dats \
 	clean-eda \
+	clean-log\
 	clean-fit-model \
 	clean-eval-model
+	rm -rf reports/age_group_classification_files
+	rm -f reports/age_group_classification.html
 	rm -f reports/age_group_classification.pdf
