@@ -78,7 +78,7 @@ quarto render reports/age_group_classification.qmd --to pdf
 6. Send a pull request to merge the changes into the main branch.
 
 ## License
-This project is licensed under a  Massachusetts Institute of Technology (MIT) License. See the [license file ](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)for more information.
+This project is licensed under a  Massachusetts Institute of Technology (MIT) License. See the [license file](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)for more information.
 
 ## References
 Bantilan, N. (2020). Pandera: Statistical Data Validation of Pandas Dataframes. In M. Agarwal, C. Calloway, D. Niederhut, & D. Shupe (Eds.), Proceedings of the 19th Python in Science Conference (pp. 116-124). https://doi.org/10.25080/Majora-342d178e-010
